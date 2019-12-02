@@ -1,0 +1,84 @@
+<form name="uploadRequiredData">
+    <div class="form-group">
+        <label for="campaignId">Campaign ID</label>
+        <input class="form-control" cam-variable-type="String" cam-variable-name="campaignId" name="campaignId"
+               readonly="true"/>
+    </div>
+    <div class="form-group">
+        <label for="localTeam">Local team</label>
+        <input class="form-control" cam-variable-type="String" cam-variable-name="localTeam" name="localTeam"
+               readonly="true"/>
+    </div>
+
+    <div ng-if="localTeam === 'Belgium'">
+        <div class="form-group">
+            <label for="T_CRITERE_BEL">T_CRITERE_BEL</label>
+            <input type="file"
+                   cam-variable-name="T_CRITERE_BEL"
+                   cam-variable-type="File"/>
+        </div>
+        <div class="form-group">
+            <label for="T_REF_BEL">T_REF_BEL</label>
+            <input type="file"
+                   cam-variable-name="T_REF_BEL"
+                   cam-variable-type="File"/>
+        </div>
+        <div class="form-group">
+            <label for="T_SCORE_BEL">T_SCORE_BEL</label>
+            <input type="file"
+                   cam-variable-name="T_SCORE_BEL"
+                   cam-variable-type="File"/>
+        </div>
+        <div class="form-group">
+            <label for="T_SCORE_VAR_BEL">T_SCORE_VAR_BEL</label>
+            <input type="file"
+                   cam-variable-name="T_SCORE_VAR_BEL"
+                   cam-variable-type="File"/>
+        </div>
+        <div class="form-group">
+            <label for="T_MONITORING_BELA0014V00">T_MONITORING_BELA0014V00</label>
+            <input type="file"
+                   cam-variable-name="T_MONITORING_BELA0014V00"
+                   cam-variable-type="File"/>
+        </div>
+    </div>
+
+    <div ng-if="localTeam === 'France'">
+        <div class="form-group">
+            <label for="T_CRITERE_FRA">T_CRITERE_FRA</label>
+            <input type="file"
+                   cam-variable-name="T_CRITERE_FRA"
+                   cam-variable-type="File"/>
+        </div>
+        <div class="form-group">
+            <label for="T_REF_FRA">T_REF_FRA</label>
+            <input type="file"
+                   cam-variable-name="T_REF_FRA"
+                   cam-variable-type="File"/>
+        </div>
+        <div class="form-group">
+            <label for="T_SCORE_FRA">T_SCORE_FRA</label>
+            <input type="file"
+                   cam-variable-name="T_SCORE_FRA"
+                   cam-variable-type="File"/>
+        </div>
+        <div class="form-group">
+            <label for="T_SCORE_VAR_FRA">T_SCORE_VAR_FRA</label>
+            <input type="file"
+                   cam-variable-name="T_SCORE_VAR_FRA"
+                   cam-variable-type="File"/>
+        </div>
+        <div class="form-group">
+            <label for="T_MONITORING_FRAA0014V00">T_MONITORING_FRAA0014V00</label>
+            <input type="file"
+                   cam-variable-name="T_MONITORING_FRAA0014V00"
+                   cam-variable-type="File"/>
+        </div>
+        <div class="form-group">
+            <label for="T_MONITORING_FRAB0001V00">T_MONITORING_FRAB0001V00</label>
+            <input type="file"
+                   cam-variable-name="T_MONITORING_FRAB0001V00"
+                   cam-variable-type="File"/>
+        </div>
+    </div>
+</form>
