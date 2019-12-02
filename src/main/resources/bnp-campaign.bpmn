@@ -28,19 +28,14 @@
       <bpmn:incoming>SequenceFlow_0ymv3b4</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1by1nqw</bpmn:outgoing>
     </bpmn:serviceTask>
-    <bpmn:userTask id="Task_17ykoyv" name="Select models for campaign" camunda:formKey="embedded:app:forms/select-model.html">
-      <bpmn:extensionElements>
-        <camunda:inputOutput>
-          <camunda:outputParameter name="selectedModel" />
-        </camunda:inputOutput>
-      </bpmn:extensionElements>
+    <bpmn:userTask id="Task_17ykoyv" name="Select models for campaign" camunda:formKey="embedded:app:forms/select-model.html" camunda:candidateGroups="Central">
       <bpmn:incoming>SequenceFlow_1by1nqw</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_04lm45x</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:endEvent id="EndEvent_0tg34ug">
       <bpmn:incoming>SequenceFlow_09q47wj</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:userTask id="Task_0umfm98" name="Finalize campaign">
+    <bpmn:userTask id="Task_0umfm98" name="Finalize campaign" camunda:candidateGroups="Central">
       <bpmn:incoming>SequenceFlow_1fiviau</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_09q47wj</bpmn:outgoing>
     </bpmn:userTask>
@@ -73,7 +68,7 @@
         <bpmn:outgoing>SequenceFlow_1qo7w8q</bpmn:outgoing>
         <bpmn:outgoing>SequenceFlow_1eb4vs8</bpmn:outgoing>
       </bpmn:exclusiveGateway>
-      <bpmn:userTask id="Task_0782711" name="Manual confirmation">
+      <bpmn:userTask id="Task_0782711" name="Manual confirmation" camunda:candidateGroups="${localTeams[loopCounter]}">
         <bpmn:incoming>SequenceFlow_11pjqmv</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1dadxho</bpmn:outgoing>
       </bpmn:userTask>
@@ -85,7 +80,7 @@
         <bpmn:incoming>SequenceFlow_010pfpc</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1io6n10</bpmn:outgoing>
       </bpmn:serviceTask>
-      <bpmn:userTask id="Task_0jccbxl" name="Upload required data">
+      <bpmn:userTask id="Task_0jccbxl" name="Upload required data" camunda:candidateGroups="${localTeams[loopCounter]}">
         <bpmn:incoming>SequenceFlow_1qo7w8q</bpmn:incoming>
         <bpmn:incoming>SequenceFlow_1owwngg</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_010pfpc</bpmn:outgoing>
