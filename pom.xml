@@ -11,9 +11,16 @@
 
   <properties>
     <camunda.version>7.12.0</camunda.version>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
+
+  <repositories>
+    <repository>
+      <id>java-utils</id>
+      <url>http://dl.bintray.com/g00dnatur3/java-utils/</url>
+    </repository>
+  </repositories>
 
   <dependencyManagement>
     <dependencies>
@@ -40,6 +47,18 @@
       <version>3.0.1</version>
       <scope>provided</scope>
     </dependency>
+
+    <dependency>
+      <groupId>g00dnatur3</groupId>
+      <artifactId>http-rest-client_2.10</artifactId>
+      <version>1.0.21</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.10</version>
+    </dependency>
   </dependencies>
 
   <build>
@@ -50,6 +69,14 @@
         <version>2.3</version>
         <configuration>
           <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>8</source>
+          <target>8</target>
         </configuration>
       </plugin>
     </plugins>
