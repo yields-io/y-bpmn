@@ -1,16 +1,24 @@
 <form name="uploadRequiredData">
     <div class="form-group">
         <label for="campaignId">Campaign ID</label>
-        <input class="form-control" cam-variable-type="String" cam-variable-name="campaignId" name="campaignId"
+        <input id="campaignId"
+               class="form-control"
+               cam-variable-type="String"
+               cam-variable-name="campaignId"
+               name="campaignId"
                readonly="true"/>
     </div>
     <div class="form-group">
         <label for="localTeam">Local team</label>
-        <input class="form-control" cam-variable-type="String" cam-variable-name="localTeam" name="localTeam"
+        <input class="form-control"
+               cam-variable-type="String"
+               cam-variable-name="localTeam"
+               name="localTeam"
+               id="localTeam"
                readonly="true"/>
     </div>
 
-    <div ng-if="localTeam === 'Belgium'">
+    <div>
         <div class="form-group">
             <label for="T_CRITERE_BEL">T_CRITERE_BEL</label>
             <input type="file"

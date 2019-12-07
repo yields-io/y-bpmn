@@ -10,7 +10,8 @@ public class IngestRequiredDataDelegate implements JavaDelegate {
   private final static Logger LOGGER = Logger.getLogger("RETRIEVE-MODELS");
 
   public void execute(DelegateExecution execution) throws Exception {
-    // TODO ???
- }
+
+      execution.setVariable("ingestSuccessful", true);
+  }
 
 }
