@@ -1,4 +1,4 @@
-package io.yields.bpm.bnp.models;
+package io.yields.bpm.bnp.chiron;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
