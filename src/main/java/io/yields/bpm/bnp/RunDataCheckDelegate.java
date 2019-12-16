@@ -10,7 +10,7 @@ public class RunDataCheckDelegate implements JavaDelegate {
   private final static Logger LOGGER = Logger.getLogger("RETRIEVE-MODELS");
 
   public void execute(DelegateExecution execution) throws Exception {
-    // TODO ???
+    execution.setVariable("dataCheckSuccessful", true);
  }
 
 }

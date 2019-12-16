@@ -42,9 +42,11 @@
       <bpmn:sequenceFlow id="SequenceFlow_1eb4vs8" name="OK" sourceRef="ExclusiveGateway_0kuijk7" targetRef="Task_0wj1bg3">
         <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkConfirmed == 'yes'}</bpmn:conditionExpression>
       </bpmn:sequenceFlow>
-      <bpmn:sequenceFlow id="SequenceFlow_11pjqmv" sourceRef="Task_0qtg5s7" targetRef="ExclusiveGateway_1mju5x1" />
+      <bpmn:sequenceFlow id="SequenceFlow_runDataCheck" sourceRef="Task_0qtg5s7" targetRef="ExclusiveGateway_1mju5x1">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
       <bpmn:sequenceFlow id="SequenceFlow_1io6n10" sourceRef="Task_0n2kfij" targetRef="ExclusiveGateway_0ds0b1y" />
-      <bpmn:sequenceFlow id="SequenceFlow_010pfpc" sourceRef="Task_0jccbxl" targetRef="Task_0n2kfij" />
+      <bpmn:sequenceFlow id="SequenceFlow_010pfpc" sourceRef="Task_0jccbxl" targetRef="ExclusiveGateway_0d2tu2x" />
       <bpmn:sequenceFlow id="SequenceFlow_1qo7w8q" name="not OK" sourceRef="ExclusiveGateway_0kuijk7" targetRef="Task_00hwi28">
         <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${checkConfirmed == 'no'}</bpmn:conditionExpression>
       </bpmn:sequenceFlow>
@@ -52,7 +54,7 @@
       <bpmn:sequenceFlow id="SequenceFlow_1ah5nvy" sourceRef="StartEvent_1eswzxm" targetRef="Task_00hwi28" />
       <bpmn:serviceTask id="Task_0wj1bg3" name="Run performance check" camunda:class="io.yields.bpm.bnp.RunPerformanceCheckDelegate">
         <bpmn:incoming>SequenceFlow_1eb4vs8</bpmn:incoming>
-        <bpmn:outgoing>SequenceFlow_19sr47f</bpmn:outgoing>
+        <bpmn:outgoing>SequenceFlow_runPerformanceCheck</bpmn:outgoing>
       </bpmn:serviceTask>
       <bpmn:exclusiveGateway id="ExclusiveGateway_0kuijk7">
         <bpmn:incoming>SequenceFlow_1dadxho</bpmn:incoming>
@@ -60,24 +62,25 @@
         <bpmn:outgoing>SequenceFlow_1eb4vs8</bpmn:outgoing>
       </bpmn:exclusiveGateway>
       <bpmn:serviceTask id="Task_0qtg5s7" name="Run data check" camunda:class="io.yields.bpm.bnp.RunDataCheckDelegate">
-        <bpmn:incoming>SequenceFlow_08gnbh3</bpmn:incoming>
-        <bpmn:outgoing>SequenceFlow_11pjqmv</bpmn:outgoing>
+        <bpmn:incoming>SequenceFlow_ingestDataCheckOk</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_runDataCheck</bpmn:outgoing>
       </bpmn:serviceTask>
       <bpmn:serviceTask id="Task_0n2kfij" name="Ingest required data" camunda:class="io.yields.bpm.bnp.IngestRequiredDataDelegate">
-        <bpmn:incoming>SequenceFlow_010pfpc</bpmn:incoming>
+        <bpmn:incoming>SequenceFlow_uploadSuccessful</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1io6n10</bpmn:outgoing>
       </bpmn:serviceTask>
       <bpmn:startEvent id="StartEvent_1eswzxm">
         <bpmn:outgoing>SequenceFlow_1ah5nvy</bpmn:outgoing>
       </bpmn:startEvent>
-      <bpmn:userTask id="Task_00hwi28" name="Build required data">
+      <bpmn:userTask id="Task_00hwi28" name="Build required data" camunda:formKey="embedded:app:forms/upload-required-data.html">
         <bpmn:incoming>SequenceFlow_1ah5nvy</bpmn:incoming>
         <bpmn:incoming>SequenceFlow_1qo7w8q</bpmn:incoming>
-        <bpmn:incoming>SequenceFlow_1v3wbl3</bpmn:incoming>
-        <bpmn:incoming>SequenceFlow_0r2z3n9</bpmn:incoming>
+        <bpmn:incoming>SequenceFlow_ingestDataCheckNotOk</bpmn:incoming>
+        <bpmn:incoming>SequenceFlow_runDataCheckNotOk</bpmn:incoming>
+        <bpmn:incoming>SequenceFlow_0fbml22</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1owwngg</bpmn:outgoing>
       </bpmn:userTask>
-      <bpmn:serviceTask id="Task_0jccbxl" name="Upload required data">
+      <bpmn:serviceTask id="Task_0jccbxl" name="Upload required data" camunda:class="io.yields.bpm.bnp.UploadRequiredDataDelegate">
         <bpmn:extensionElements>
           <camunda:inputOutput>
             <camunda:inputParameter name="localTeam">${localTeams[loopCounter]}</camunda:inputParameter>
@@ -88,27 +91,48 @@
       </bpmn:serviceTask>
       <bpmn:exclusiveGateway id="ExclusiveGateway_0ds0b1y">
         <bpmn:incoming>SequenceFlow_1io6n10</bpmn:incoming>
-        <bpmn:outgoing>SequenceFlow_1v3wbl3</bpmn:outgoing>
-        <bpmn:outgoing>SequenceFlow_08gnbh3</bpmn:outgoing>
+        <bpmn:outgoing>SequenceFlow_ingestDataCheckNotOk</bpmn:outgoing>
+        <bpmn:outgoing>SequenceFlow_ingestDataCheckOk</bpmn:outgoing>
       </bpmn:exclusiveGateway>
-      <bpmn:sequenceFlow id="SequenceFlow_1v3wbl3" sourceRef="ExclusiveGateway_0ds0b1y" targetRef="Task_00hwi28" />
-      <bpmn:sequenceFlow id="SequenceFlow_08gnbh3" sourceRef="ExclusiveGateway_0ds0b1y" targetRef="Task_0qtg5s7" />
+      <bpmn:sequenceFlow id="SequenceFlow_ingestDataCheckNotOk" sourceRef="ExclusiveGateway_0ds0b1y" targetRef="Task_00hwi28">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!ingestSuccessful}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="SequenceFlow_ingestDataCheckOk" sourceRef="ExclusiveGateway_0ds0b1y" targetRef="Task_0qtg5s7">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${ingestSuccessful}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
       <bpmn:userTask id="Task_0782711" name="Manual confirmation" camunda:formKey="embedded:app:forms/manual-confirmation.html" camunda:candidateGroups="${localTeams[loopCounter]}">
-        <bpmn:incoming>SequenceFlow_0vr6h83</bpmn:incoming>
+        <bpmn:incoming>SequenceFlow_runDataCheckOk</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1dadxho</bpmn:outgoing>
       </bpmn:userTask>
       <bpmn:sequenceFlow id="SequenceFlow_1dadxho" sourceRef="Task_0782711" targetRef="ExclusiveGateway_0kuijk7" />
       <bpmn:exclusiveGateway id="ExclusiveGateway_1mju5x1">
-        <bpmn:incoming>SequenceFlow_11pjqmv</bpmn:incoming>
-        <bpmn:outgoing>SequenceFlow_0r2z3n9</bpmn:outgoing>
-        <bpmn:outgoing>SequenceFlow_0vr6h83</bpmn:outgoing>
+        <bpmn:incoming>SequenceFlow_runDataCheck</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_runDataCheckNotOk</bpmn:outgoing>
+        <bpmn:outgoing>SequenceFlow_runDataCheckOk</bpmn:outgoing>
       </bpmn:exclusiveGateway>
-      <bpmn:sequenceFlow id="SequenceFlow_0r2z3n9" sourceRef="ExclusiveGateway_1mju5x1" targetRef="Task_00hwi28" />
-      <bpmn:sequenceFlow id="SequenceFlow_0vr6h83" sourceRef="ExclusiveGateway_1mju5x1" targetRef="Task_0782711" />
+      <bpmn:sequenceFlow id="SequenceFlow_runDataCheckNotOk" sourceRef="ExclusiveGateway_1mju5x1" targetRef="Task_00hwi28">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!dataCheckSuccessful}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="SequenceFlow_runDataCheckOk" sourceRef="ExclusiveGateway_1mju5x1" targetRef="Task_0782711">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${dataCheckSuccessful}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
       <bpmn:endEvent id="EndEvent_17lwvqj">
-        <bpmn:incoming>SequenceFlow_19sr47f</bpmn:incoming>
+        <bpmn:incoming>SequenceFlow_runPerformanceCheck</bpmn:incoming>
       </bpmn:endEvent>
-      <bpmn:sequenceFlow id="SequenceFlow_19sr47f" sourceRef="Task_0wj1bg3" targetRef="EndEvent_17lwvqj" />
+      <bpmn:sequenceFlow id="SequenceFlow_runPerformanceCheck" sourceRef="Task_0wj1bg3" targetRef="EndEvent_17lwvqj">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${true}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:exclusiveGateway id="ExclusiveGateway_0d2tu2x">
+        <bpmn:incoming>SequenceFlow_010pfpc</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_uploadSuccessful</bpmn:outgoing>
+        <bpmn:outgoing>SequenceFlow_0fbml22</bpmn:outgoing>
+      </bpmn:exclusiveGateway>
+      <bpmn:sequenceFlow id="SequenceFlow_uploadSuccessful" name="Upload successful?" sourceRef="ExclusiveGateway_0d2tu2x" targetRef="Task_0n2kfij">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${uploadSuccess}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
+      <bpmn:sequenceFlow id="SequenceFlow_0fbml22" sourceRef="ExclusiveGateway_0d2tu2x" targetRef="Task_00hwi28">
+        <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!uploadSuccess}</bpmn:conditionExpression>
+      </bpmn:sequenceFlow>
     </bpmn:subProcess>
     <bpmn:sequenceFlow id="SequenceFlow_1fiviau" sourceRef="Task_0riokkz" targetRef="Task_0umfm98" />
     <bpmn:sequenceFlow id="SequenceFlow_04lm45x" sourceRef="Task_17ykoyv" targetRef="Task_0riokkz" />
@@ -167,8 +191,8 @@
         <di:waypoint x="350" y="230" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1io6n10_di" bpmnElement="SequenceFlow_1io6n10">
-        <di:waypoint x="750" y="230" />
-        <di:waypoint x="795" y="230" />
+        <di:waypoint x="810" y="230" />
+        <di:waypoint x="835" y="230" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ExclusiveGateway_0kuijk7_di" bpmnElement="ExclusiveGateway_0kuijk7" isMarkerVisible="true">
         <dc:Bounds x="1265" y="205" width="50" height="50" />
@@ -193,18 +217,18 @@
         <dc:Bounds x="1420" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0fqyv6y_di" bpmnElement="Task_0qtg5s7">
-        <dc:Bounds x="890" y="190" width="100" height="80" />
+        <dc:Bounds x="910" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_0skihcz_di" bpmnElement="Task_0n2kfij">
-        <dc:Bounds x="650" y="190" width="100" height="80" />
+        <dc:Bounds x="710" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_11pjqmv_di" bpmnElement="SequenceFlow_11pjqmv">
-        <di:waypoint x="990" y="230" />
+      <bpmndi:BPMNEdge id="SequenceFlow_11pjqmv_di" bpmnElement="SequenceFlow_runDataCheck">
+        <di:waypoint x="1010" y="230" />
         <di:waypoint x="1035" y="230" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_010pfpc_di" bpmnElement="SequenceFlow_010pfpc">
         <di:waypoint x="600" y="230" />
-        <di:waypoint x="650" y="230" />
+        <di:waypoint x="625" y="230" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1qo7w8q_di" bpmnElement="SequenceFlow_1qo7w8q">
         <di:waypoint x="1290" y="255" />
@@ -244,17 +268,17 @@
         <dc:Bounds x="500" y="190" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ExclusiveGateway_0ds0b1y_di" bpmnElement="ExclusiveGateway_0ds0b1y" isMarkerVisible="true">
-        <dc:Bounds x="795" y="205" width="50" height="50" />
+        <dc:Bounds x="835" y="205" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_1v3wbl3_di" bpmnElement="SequenceFlow_1v3wbl3">
-        <di:waypoint x="820" y="255" />
-        <di:waypoint x="820" y="300" />
+      <bpmndi:BPMNEdge id="SequenceFlow_1v3wbl3_di" bpmnElement="SequenceFlow_ingestDataCheckNotOk">
+        <di:waypoint x="860" y="255" />
+        <di:waypoint x="860" y="300" />
         <di:waypoint x="430" y="300" />
         <di:waypoint x="430" y="270" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_08gnbh3_di" bpmnElement="SequenceFlow_08gnbh3">
-        <di:waypoint x="845" y="230" />
-        <di:waypoint x="890" y="230" />
+      <bpmndi:BPMNEdge id="SequenceFlow_08gnbh3_di" bpmnElement="SequenceFlow_ingestDataCheckOk">
+        <di:waypoint x="885" y="230" />
+        <di:waypoint x="910" y="230" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="UserTask_0npkcwe_di" bpmnElement="Task_0782711">
         <dc:Bounds x="1130" y="190" width="100" height="80" />
@@ -266,13 +290,13 @@
       <bpmndi:BPMNShape id="ExclusiveGateway_1mju5x1_di" bpmnElement="ExclusiveGateway_1mju5x1" isMarkerVisible="true">
         <dc:Bounds x="1035" y="205" width="50" height="50" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_0r2z3n9_di" bpmnElement="SequenceFlow_0r2z3n9">
+      <bpmndi:BPMNEdge id="SequenceFlow_0r2z3n9_di" bpmnElement="SequenceFlow_runDataCheckNotOk">
         <di:waypoint x="1060" y="255" />
         <di:waypoint x="1060" y="320" />
         <di:waypoint x="410" y="320" />
         <di:waypoint x="410" y="270" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_0vr6h83_di" bpmnElement="SequenceFlow_0vr6h83">
+      <bpmndi:BPMNEdge id="SequenceFlow_0vr6h83_di" bpmnElement="SequenceFlow_runDataCheckOk">
         <di:waypoint x="1085" y="230" />
         <di:waypoint x="1130" y="230" />
       </bpmndi:BPMNEdge>
@@ -283,7 +307,7 @@
       <bpmndi:BPMNShape id="UserTask_1dhh2z5_di" bpmnElement="Task_1h71rwv">
         <dc:Bounds x="1740" y="220" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_19sr47f_di" bpmnElement="SequenceFlow_19sr47f">
+      <bpmndi:BPMNEdge id="SequenceFlow_19sr47f_di" bpmnElement="SequenceFlow_runPerformanceCheck">
         <di:waypoint x="1520" y="230" />
         <di:waypoint x="1582" y="230" />
       </bpmndi:BPMNEdge>
@@ -293,6 +317,22 @@
       <bpmndi:BPMNEdge id="SequenceFlow_0wb2akl_di" bpmnElement="SequenceFlow_0wb2akl">
         <di:waypoint x="1840" y="260" />
         <di:waypoint x="1902" y="260" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ExclusiveGateway_0d2tu2x_di" bpmnElement="ExclusiveGateway_0d2tu2x" isMarkerVisible="true">
+        <dc:Bounds x="625" y="205" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0jfz29t_di" bpmnElement="SequenceFlow_uploadSuccessful">
+        <di:waypoint x="675" y="230" />
+        <di:waypoint x="710" y="230" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="631" y="176" width="58" height="27" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0fbml22_di" bpmnElement="SequenceFlow_0fbml22">
+        <di:waypoint x="650" y="255" />
+        <di:waypoint x="650" y="280" />
+        <di:waypoint x="440" y="280" />
+        <di:waypoint x="440" y="270" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

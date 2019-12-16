@@ -1,7 +1,7 @@
 package io.yields.bpm.bnp;
 
-import io.yields.bpm.bnp.models.ModelApi;
-import io.yields.bpm.bnp.models.ModelDTO;
+import io.yields.bpm.bnp.chiron.ChironApi;
+import io.yields.bpm.bnp.chiron.ModelDTO;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.variable.Variables;
@@ -22,8 +22,7 @@ public class RetrieveAllModelsDelegate implements JavaDelegate {
     LOGGER.info("Processing request by '"+execution.getVariable("modelList"));
 
 
-    ModelApi modelApi = new ModelApi();
-    Map<String, String> models = modelApi.getModels().stream()
+    Map<String, String> models = ChironApi.getModels().stream()
             .collect(Collectors.toMap(ModelDTO::getId, ModelDTO::getName));
 
     execution.setVariable("modelList",
