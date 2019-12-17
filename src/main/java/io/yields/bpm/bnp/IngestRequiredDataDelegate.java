@@ -13,7 +13,7 @@ import java.util.Map;
 public class IngestRequiredDataDelegate implements JavaDelegate {
 
 
-  public void execute(DelegateExecution execution) throws Exception {
+  public void execute(DelegateExecution execution) {
       Map<String, String> datasetIds = (Map<String, String>) execution.getVariable(ProcessVariables.DATASET_IDS);
       boolean success;
 
@@ -22,14 +22,16 @@ public class IngestRequiredDataDelegate implements JavaDelegate {
               ChironApi.ingest(ingestFilenameAndId);
           }
 
-          Map<String, String> ingestStatuses = new HashMap<>();
-          do {
-              for (Map.Entry<String, String> fileNameAndId : datasetIds.entrySet()) {
-                  ingestStatuses.put(fileNameAndId.getKey(), ChironApi.getIngestionStatus(fileNameAndId.getKey(), fileNameAndId.getValue()));
-              }
-          } while (notAllIngested(ingestStatuses));
-
-          success = true;
+          success = RetryUtil.checkWithRetry(
+                  () -> {
+                      Map<String, String> ingestStatuses = new HashMap<>();
+                      for (Map.Entry<String, String> fileNameAndId : datasetIds.entrySet()) {
+                          ingestStatuses.put(fileNameAndId.getKey(), ChironApi.getIngestionStatus(fileNameAndId.getKey(), fileNameAndId.getValue()));
+                      }
+                      return allIngested(ingestStatuses);
+                  },
+                  String.format("Checking ingest statuses timeouted for %s", datasetIds)
+          );
       } catch (Exception e) {
           log.error("IngestRequiredData error", e);
           success = false;
@@ -38,8 +40,8 @@ public class IngestRequiredDataDelegate implements JavaDelegate {
       execution.setVariable("ingestSuccessful", success);
   }
 
-    private boolean notAllIngested(Map<String, String> ingestStatuses) {
-        return ingestStatuses.values().stream()
+    private boolean allIngested(Map<String, String> ingestStatuses) {
+        return !ingestStatuses.values().stream()
                 .filter(status -> !status.equals("Done"))
                 .findAny()
                 .isPresent();

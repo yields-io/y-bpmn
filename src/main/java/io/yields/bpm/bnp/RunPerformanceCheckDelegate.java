@@ -13,7 +13,7 @@ import java.util.logging.Logger;
 public class RunPerformanceCheckDelegate implements JavaDelegate {
 
 
-  public void execute(DelegateExecution execution) throws Exception {
+  public void execute(DelegateExecution execution) {
       // TODO: parameters should be determined by the following mapping:
       //      BE team needs to run the derivation script for the dataset that is called V12_SCORE_ANALYSIS_BEL
       //      FR team needs to run the derivation script for the dataset that is called V12_SCORE_ANALYSIS_FRA
@@ -23,18 +23,10 @@ public class RunPerformanceCheckDelegate implements JavaDelegate {
       StageDTO stage = ChironApi.getStage("Analysis", "V12_BELA0014V00_SCORE_ANALYSIS");
       StartSessionResponse startSessionResponse = ChironApi.startSession(stage.getId());
 
-      boolean allSuccess = false;
-      while (!allSuccess) {
-          allSuccess = !startSessionResponse.getIds().stream()
-                  .map(sessionId -> ChironApi.getSessionDetails(sessionId))
-                  .map(sessionDetailsDTO -> sessionDetailsDTO.getStatus())
-                  .filter(status -> !status.equals("Success"))
-                  .findAny()
-                  .isPresent();
-          log.debug("allSuccess? {}", allSuccess);
-      }
-
-      execution.setVariable("performanceCheckSuccessful", allSuccess);
+      execution.setVariable(
+              "performanceCheckSuccessful",
+              SessionsCheck.allSessionsCompletedWithSuccess(startSessionResponse.getIds())
+      );
   }
 
 }
