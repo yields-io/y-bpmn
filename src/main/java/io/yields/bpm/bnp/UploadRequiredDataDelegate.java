@@ -28,8 +28,8 @@ public class UploadRequiredDataDelegate implements JavaDelegate {
     try {
       uploadFile(datasetIds, datasets, "V12_SCORE_BEL",
               execution.getVariable(ProcessVariables.T_SCORE_BEL), "T_SCORE_%s_BEL.csv");
-      uploadFile(datasetIds, datasets, "V12_MONITORING_BELA0014V00",
-              execution.getVariable(ProcessVariables.T_MONITORING_BEL), "T_MONITORING_%s_BELA0014V00.csv");
+//      uploadFile(datasetIds, datasets, "V12_MONITORING_BELA0014V00",
+//              execution.getVariable(ProcessVariables.T_MONITORING_BEL), "T_MONITORING_%s_BELA0014V00.csv");
 
       // success = datasetIds.size() == 4;
       execution.setVariable(ProcessVariables.DATASET_IDS, datasetIds);

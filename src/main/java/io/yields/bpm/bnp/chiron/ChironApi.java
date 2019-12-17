@@ -23,7 +23,7 @@ public class ChironApi {
 
     //TODO: make it configurable
     private static final String BASE_URL = "https://bnp.qa.yields.io/y-api";
-    private static final String token = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnT2p6TkJLR3ljOVFOZHJNQ2FhVDBMLWFYRDBLeDYwc3JnMFFnWWhtSkhVIn0.eyJqdGkiOiJmN2Q5NGYxOC0xZGJkLTRkOTQtYWIwMC00MWM1MzUzNzAzYzYiLCJleHAiOjE1NzY1Mzc5MzksIm5iZiI6MCwiaWF0IjoxNTc2NTE5OTM5LCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA5MC95LWtleWNsb2FrL3JlYWxtcy95aWVsZHMiLCJhdWQiOlsicmVnaXN0cnkiLCJhY2NvdW50Il0sInN1YiI6IjUyOGEyOTg2LTlkMDEtNDczYS05MDkwLTMyOGQxZmY5OTZhYiIsInR5cCI6IkJlYXJlciIsImF6cCI6InktcG9ydGFsIiwibm9uY2UiOiIzYmIzZGRkMi1mMThlLTQ4OWYtOGNiYy1jNzA3MmY3YjBjYjYiLCJhdXRoX3RpbWUiOjE1NzY1MTk5MzYsInNlc3Npb25fc3RhdGUiOiIxM2I2OGEwOC0wNTFjLTQ3MjctYTBkMi0yYjZhOGIwMGVmNmMiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWdpc3RyeSI6eyJyb2xlcyI6WyJjZW50cmFsLXRlYW0iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSBzdmlndWllIiwibW9kaWZ5X3RpbWVzdGFtcCI6IjIwMTkxMDA0MTU1ODEwWiIsImdyb3VwcyI6WyJjYW11bmRhLWFkbWluIiwiYm5wIl0sInByZWZlcnJlZF91c2VybmFtZSI6InN2aWd1aWUiLCJnaXZlbl9uYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSIsImZhbWlseV9uYW1lIjoic3ZpZ3VpZSJ9.KOXMaRrN6QlkIPrq7DbrbtQ8dBtHewXeoIVe4eybxL6hkaIKlmqb66PduyoJdcd6C-HoWisC9oRxsYqF2XuLnSCFsFKZmkNxpQ0qOJms56sVbtT94i7LFfSXOT8xcLZJRMAy0gqMsaLBnT6wKVmRffbRo8dF6WIU-y0t43s1Tpf8VG2mqJQ_HoUHhzjdDjMjZr2adVAFmwBsiGDMEZ3PrQzO47GOcsjQFMtFqq2TiatBWwxkJ1pL1YdV0vp3wqFYsvaDjQWCxDxOmCCd8FGukLhNDyPZQMlZzjnF8AdNn2e7z6idZlCP5fxmH7xbQlg5npHEST71bqznkC7AwaOkcA";
+    private static final String token = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnT2p6TkJLR3ljOVFOZHJNQ2FhVDBMLWFYRDBLeDYwc3JnMFFnWWhtSkhVIn0.eyJqdGkiOiI4ZGYwYTM5MS01ZjY4LTRlZmItOTkyMy04M2ZmNTNlZjU4ZTYiLCJleHAiOjE1NzY2MDU3MjUsIm5iZiI6MCwiaWF0IjoxNTc2NTg3NzI1LCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA5MC95LWtleWNsb2FrL3JlYWxtcy95aWVsZHMiLCJhdWQiOlsicmVnaXN0cnkiLCJhY2NvdW50Il0sInN1YiI6IjUyOGEyOTg2LTlkMDEtNDczYS05MDkwLTMyOGQxZmY5OTZhYiIsInR5cCI6IkJlYXJlciIsImF6cCI6InktcG9ydGFsIiwibm9uY2UiOiI4OGQxNWEwYS03M2MzLTQyMGMtOGUxOC1mM2Y5YmJhODBjODAiLCJhdXRoX3RpbWUiOjE1NzY1ODc3MjAsInNlc3Npb25fc3RhdGUiOiJmZGY5ZmRlNy0zZjhkLTRlMzItODRjYi1kYWY2NmNmZjlmZGIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWdpc3RyeSI6eyJyb2xlcyI6WyJjZW50cmFsLXRlYW0iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSBzdmlndWllIiwibW9kaWZ5X3RpbWVzdGFtcCI6IjIwMTkxMDA0MTU1ODEwWiIsImdyb3VwcyI6WyJjYW11bmRhLWFkbWluIiwiYm5wIl0sInByZWZlcnJlZF91c2VybmFtZSI6InN2aWd1aWUiLCJnaXZlbl9uYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSIsImZhbWlseV9uYW1lIjoic3ZpZ3VpZSJ9.F4QL4GrAhzZJwavTDP2rCHlYfvQ8kocIsyUUCffe1k8OhX_qRH-UXM3ZxZ7srWE9Dm_hg2I_NjhoA7g7LWb-gKckD3UsrCpbQcpPxKhudUTcxIRbxkept-sBFYY2as2ejoVOEZd6VKyT252FhWyqQPW9wJ9ZfLfZ3Lc8UPUw4pQhlv8nzv9JUIMTOKLl1s4b8W6aIB1Payhy0tYx5Beani217u1WaT5hmHjg64Ub9Da3CDSUU1j0jfXrNBIb32pApZ5FJGj8HsbohWIAyMpS1byBqQIkTyPZDAYu04M-GXkOkzmnu2REI1j_KXZP1ToL_RWr4ivwjQPJX1eIXE5jDQ";
 
 
     public List<ModelDTO> getModels() {
@@ -105,7 +105,7 @@ public class ChironApi {
             log.error("getDatasets error", e);
         }
 
-        ArrayList<DatasetDTO> result = Lists.newArrayList(response.getBody());
+        List<DatasetDTO> result = Lists.newArrayList(response.getBody());
         log.debug("datasets: {}", response);
         return result;
     }
@@ -135,6 +135,57 @@ public class ChironApi {
         }
 
         throw new RuntimeException("Error getting ingestions, " + response);
+    }
+
+    public StageDTO getStage(String stageType, String name) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<String> entity = new HttpEntity<>(headersWithToken());
+        ResponseEntity<StageDTO[]> response = null;
+        try {
+            response = restTemplate.exchange(BASE_URL + String.format("/stages?stageType=%s&name=%s", stageType, name),
+                    HttpMethod.GET, entity, StageDTO[].class);
+        } catch (Exception e) {
+            log.error("getStage error", e);
+        }
+        log.debug("getStage: {}", response);
+        List<StageDTO> stages = Lists.newArrayList(response.getBody());
+        if (stages.size() != 1) {
+            throw new RuntimeException("Could not get unique state for: " + stageType + ", " + name);
+        }
+        return stages.get(0);
+    }
+
+    public StartSessionResponse startSession(String stageId) {
+        HttpEntity<String> requestEntity = new HttpEntity<>(headersWithToken());
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<StartSessionResponse> response = null;
+        try {
+            response = restTemplate.postForEntity(BASE_URL + String.format("/sessions/?stageId=%s", stageId),
+                    requestEntity, StartSessionResponse.class);
+        } catch (Exception e) {
+            log.error("startSession error", e);
+        }
+        log.debug("startSession response: {}", response);
+
+        if (response.getStatusCode() != HttpStatus.OK) {
+            throw new RuntimeException("Error calling startSession endpoint: " + response);
+        }
+
+        return response.getBody();
+    }
+
+    public SessionDetailsDTO getSessionDetails(String sessionId) {
+        RestTemplate restTemplate = new RestTemplate();
+        HttpEntity<String> entity = new HttpEntity<>(headersWithToken());
+        ResponseEntity<SessionDetailsDTO> response = null;
+        try {
+            response = restTemplate.exchange(BASE_URL + String.format("/sessions/%s/detail", sessionId),
+                    HttpMethod.GET, entity, SessionDetailsDTO.class);
+        } catch (Exception e) {
+            log.error("getStage error", e);
+        }
+        log.debug("getStage: {}", response);
+        return response.getBody();
     }
 
 
