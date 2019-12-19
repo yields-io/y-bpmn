@@ -14,6 +14,7 @@ public class IngestRequiredDataDelegate implements JavaDelegate {
 
 
   public void execute(DelegateExecution execution) {
+      log.info("STARTING INGEST STEP");
       Map<String, String> datasetIds = (Map<String, String>) execution.getVariable(ProcessVariables.DATASET_IDS);
       boolean success;
 
@@ -28,7 +29,9 @@ public class IngestRequiredDataDelegate implements JavaDelegate {
                       for (Map.Entry<String, String> fileNameAndId : datasetIds.entrySet()) {
                           ingestStatuses.put(fileNameAndId.getKey(), ChironApi.getIngestionStatus(fileNameAndId.getKey(), fileNameAndId.getValue()));
                       }
-                      return allIngested(ingestStatuses);
+                      boolean allFilesIngested = allIngested(ingestStatuses);
+                      log.info("Retried all ingested check, All files ingested? {}", allFilesIngested);
+                      return allFilesIngested;
                   },
                   String.format("Checking ingest statuses timeouted for %s", datasetIds)
           );
@@ -37,6 +40,7 @@ public class IngestRequiredDataDelegate implements JavaDelegate {
           success = false;
       }
 
+      log.info("Ingest step success: {}", success);
       execution.setVariable("ingestSuccessful", success);
   }
 

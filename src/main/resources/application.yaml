@@ -1,0 +1,27 @@
+camunda.bpm:
+  admin-user:
+    id: demo
+    password: demo
+    firstName: Demo
+  filter:
+    create: All tasks
+
+# for keycloak you this and comment out admin-user above
+# also uncomment keycloak dependency in the pom.xml
+
+#  authorization:
+#    enabled: true
+#
+#plugin.identity.keycloak:
+#  keycloakIssuerUrl: https://bnp.qa.yields.io/y-keycloak/realms/yields
+#  keycloakAdminUrl: https://bnp.qa.yields.io/y-keycloak/admin/realms/yields
+#  clientId: camunda-identity-service
+#  clientSecret: 15fdf9ae-ca24-4e9c-af64-e45d10471acc
+#  useEmailAsCamundaUserId: true
+#  administratorGroupName: camunda-admin
+
+logging:
+  level:
+    ROOT: INFO
+    io.yields: INFO
+

@@ -3,14 +3,8 @@ package io.yields.bpm.bnp;
 import io.yields.bpm.bnp.chiron.ChironApi;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.awaitility.core.ConditionTimeoutException;
 
 import java.util.List;
-
-import static java.util.concurrent.TimeUnit.MINUTES;
-import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.awaitility.Awaitility.reset;
-import static org.awaitility.Awaitility.with;
 
 
 @Slf4j
@@ -32,7 +26,7 @@ class SessionsCheck {
                     .filter(status -> !status.equals("Success"))
                     .findAny()
                     .isPresent();
-        log.debug("allSuccess? {}", allSuccess);
+        log.info("Checking sessions. allSuccess? {}", allSuccess);
         return allSuccess;
     }
 

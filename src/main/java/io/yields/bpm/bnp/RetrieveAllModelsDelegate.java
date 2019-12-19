@@ -2,6 +2,7 @@ package io.yields.bpm.bnp;
 
 import io.yields.bpm.bnp.chiron.ChironApi;
 import io.yields.bpm.bnp.chiron.ModelDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.variable.Variables;
@@ -14,13 +15,13 @@ import java.util.stream.Collectors;
 
 import static org.camunda.bpm.engine.variable.Variables.objectValue;
 
+@Slf4j
 public class RetrieveAllModelsDelegate implements JavaDelegate {
 
   private final static Logger LOGGER = Logger.getLogger("RETRIEVE-MODELS");
 
   public void execute(DelegateExecution execution) throws Exception {
-    LOGGER.info("Processing request by '"+execution.getVariable("modelList"));
-
+    log.info("STARTING RetrieveAllModels STEP");
 
     Map<String, String> models = ChironApi.getModels().stream()
             .collect(Collectors.toMap(ModelDTO::getId, ModelDTO::getName));
@@ -35,6 +36,7 @@ public class RetrieveAllModelsDelegate implements JavaDelegate {
     localTeams.add("Belgium");
 
     execution.setVariable("localTeams", localTeams);
- }
+    log.info("RetrieveAllModels done");
+  }
 
 }

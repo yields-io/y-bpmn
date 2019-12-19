@@ -14,7 +14,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 
 
 @Slf4j
@@ -23,7 +22,9 @@ public class UploadRequiredDataDelegate implements JavaDelegate {
   private static DateTimeFormatter DT_FORMATTER = DateTimeFormatter.ofPattern("yyyy_MM_ddHHmmssS");
 
   public void execute(DelegateExecution execution) {
-    Map<String, String > datasetIds = new HashMap<>();
+    log.info("STARTING UPLOAD STEP");
+
+    Map<String, String> datasetIds = new HashMap<>();
     boolean success;
     List<DatasetDTO> datasets = ChironApi.getDatasets();
 
@@ -61,9 +62,9 @@ public class UploadRequiredDataDelegate implements JavaDelegate {
     } catch (Exception e) {
       success = false;
       log.error("Upload error", e);
-//      throw new RuntimeException("Upload error", e);
     }
 
+    log.info("Upload step success: {}", success);
     execution.setVariable("uploadSuccess", success);
   }
 

@@ -3,15 +3,12 @@ package io.yields.bpm.bnp.chiron;
 import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -23,7 +20,7 @@ public class ChironApi {
 
     //TODO: make it configurable
     private static final String BASE_URL = "https://bnp.qa.yields.io/y-api";
-    private static final String token = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnT2p6TkJLR3ljOVFOZHJNQ2FhVDBMLWFYRDBLeDYwc3JnMFFnWWhtSkhVIn0.eyJqdGkiOiJjMDA1OWQ0MS1lNjI4LTRmOTItOTI5Yi00MGE5ZDVkMWM0ZWMiLCJleHAiOjE1NzY3MTk3MjEsIm5iZiI6MCwiaWF0IjoxNTc2NzAxNzIxLCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA5MC95LWtleWNsb2FrL3JlYWxtcy95aWVsZHMiLCJhdWQiOlsicmVnaXN0cnkiLCJhY2NvdW50Il0sInN1YiI6IjUyOGEyOTg2LTlkMDEtNDczYS05MDkwLTMyOGQxZmY5OTZhYiIsInR5cCI6IkJlYXJlciIsImF6cCI6InktcG9ydGFsIiwibm9uY2UiOiI0OTNlZjk3Yi0wOTAyLTRmODMtOGExMC0zMzE5ZGEwNDYwMWMiLCJhdXRoX3RpbWUiOjE1NzY3MDE3MTgsInNlc3Npb25fc3RhdGUiOiIyYjM2MjkyZi00ODFiLTRhY2EtODY2NS02MDU4OTBlYjcyOGMiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWdpc3RyeSI6eyJyb2xlcyI6WyJjZW50cmFsLXRlYW0iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSBzdmlndWllIiwibW9kaWZ5X3RpbWVzdGFtcCI6IjIwMTkxMDA0MTU1ODEwWiIsImdyb3VwcyI6WyJjYW11bmRhLWFkbWluIiwiYm5wIl0sInByZWZlcnJlZF91c2VybmFtZSI6InN2aWd1aWUiLCJnaXZlbl9uYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSIsImZhbWlseV9uYW1lIjoic3ZpZ3VpZSJ9.asqrpcEV1AQC2EAKlHrAdO-fhvuqjpvVwca2ytxMJVrvinpXkMlBzQhT_YPZfIC_zVfsgCi1aOO7EInG-2xmuCGWi6V6vIqjI8cngxUa5QVdI5VG5m9ECUTrRPF08Lt6q7i1BxH3dcTZy-l-Ge0C4a7pFt7vYqEF8xU8dVHb_iwzNC99bgGhmOntKX7IQbrEMVLceFSIZqsBFdO0I3TBsK80Pj3QKHjaw4KcZUMSUIYi9KmY283inIZJypqJVs_n80ZsAd10YI92STRp4Xj7RWIVJ854CmgtLpDI5guQLL39Aq0RroQ8FFSypiXtmdiDskC60-DxUBn49tHY0EC4AA";
+    private static final String token = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnT2p6TkJLR3ljOVFOZHJNQ2FhVDBMLWFYRDBLeDYwc3JnMFFnWWhtSkhVIn0.eyJqdGkiOiJjYmQ1MGRiYS1iZjliLTQ4MzctYWMzYy05NjExZmRmNTA1NTciLCJleHAiOjE1NzY3NzY3ODMsIm5iZiI6MCwiaWF0IjoxNTc2NzU4NzgzLCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA5MC95LWtleWNsb2FrL3JlYWxtcy95aWVsZHMiLCJhdWQiOlsicmVnaXN0cnkiLCJhY2NvdW50Il0sInN1YiI6IjUyOGEyOTg2LTlkMDEtNDczYS05MDkwLTMyOGQxZmY5OTZhYiIsInR5cCI6IkJlYXJlciIsImF6cCI6InktcG9ydGFsIiwibm9uY2UiOiI0NjY4ZDE0NC0xNDQ1LTQ3NGUtODIzNi01MDlmNmY2MWJjMTMiLCJhdXRoX3RpbWUiOjE1NzY3NTg3ODAsInNlc3Npb25fc3RhdGUiOiI2ZGQyOTkwNS0xZTRiLTQ4MTMtYTE3MC02MzkyZWJmYTY5YTIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWdpc3RyeSI6eyJyb2xlcyI6WyJjZW50cmFsLXRlYW0iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSBzdmlndWllIiwibW9kaWZ5X3RpbWVzdGFtcCI6IjIwMTkxMDA0MTU1ODEwWiIsImdyb3VwcyI6WyJjYW11bmRhLWFkbWluIiwiYm5wIl0sInByZWZlcnJlZF91c2VybmFtZSI6InN2aWd1aWUiLCJnaXZlbl9uYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSIsImZhbWlseV9uYW1lIjoic3ZpZ3VpZSJ9.L0jFWsk86D4IE5h50RZ1EOfDNMydMNU8uubNuCOIgA85d4LlLrflqGoM0XlaZdUtpUKGnM9g4cXDCJ1n-ZWfPCneTUgL7wVTtYvEnCq9C8W-9mKMP6e9a3r0y1-w5SpfIDmFF5JH_zNmgLHGqrRlhJg9TPbO21oudJ1NLOYzP3SdR0wjpZaT5B4HQKithYyB4veZmm9Qvr4SoJSQPkGzSFsth6gUHFj4S865XVhTtlReImp4zdLg5K6PFa71EbU60xmWTQxNn5GLqjy5jW8By3iDz_2kvIZwNh3zmiC5Sv61sWUO9fp8bFZau19yEEUecnNBv11dO7bRxWDX03boWQ";
 
 
     public List<ModelDTO> getModels() {
@@ -118,15 +115,17 @@ public class ChironApi {
         } catch (Exception e) {
             log.error("get dataset ingestions error", e);
         }
-        log.error("get dataset ingestions response: {}", response);
+        log.debug("get dataset ingestions response: {}", response);
 
         if (response.getStatusCode() == HttpStatus.OK) {
             List<IngestionDTO> ingestions = Lists.newArrayList(response.getBody());
-            return ingestions.stream()
+            String result = ingestions.stream()
                     .filter(ingestionDTO -> ingestionDTO.getFileName().equals(fileName))
                     .map(ingestionDTO -> ingestionDTO.getStatus())
                     .findFirst()
-                    .orElseThrow(() -> new RuntimeException("Could not find ingestion for file: " + fileName));
+                    .orElse("");  // may not be available immediately
+            log.debug("Ingestion status for fileName: {}, {}", fileName, result);
+            return result;
         }
 
         throw new RuntimeException("Error getting ingestions, " + response);
