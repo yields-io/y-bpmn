@@ -23,7 +23,7 @@ public class ChironApi {
 
     //TODO: make it configurable
     private static final String BASE_URL = "https://bnp.qa.yields.io/y-api";
-    private static final String token = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnT2p6TkJLR3ljOVFOZHJNQ2FhVDBMLWFYRDBLeDYwc3JnMFFnWWhtSkhVIn0.eyJqdGkiOiI1MGQ2YmI0Yy0yZGVmLTQ3ZjQtOTNiMy04NTM5ZDdhYzE0NjgiLCJleHAiOjE1NzY2Mzk3MzEsIm5iZiI6MCwiaWF0IjoxNTc2NjIxNzMxLCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA5MC95LWtleWNsb2FrL3JlYWxtcy95aWVsZHMiLCJhdWQiOlsicmVnaXN0cnkiLCJhY2NvdW50Il0sInN1YiI6IjUyOGEyOTg2LTlkMDEtNDczYS05MDkwLTMyOGQxZmY5OTZhYiIsInR5cCI6IkJlYXJlciIsImF6cCI6InktcG9ydGFsIiwibm9uY2UiOiIzOWEyNGM3ZS1lZTkyLTQxNGUtODcxMy1jYzIzOGYwZWMxYjQiLCJhdXRoX3RpbWUiOjE1NzY2MjE3MjgsInNlc3Npb25fc3RhdGUiOiI2NzU0OTA4OC1mMjM0LTQyYzktYTcyZC01YmJkMTE2MTBhMjYiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWdpc3RyeSI6eyJyb2xlcyI6WyJjZW50cmFsLXRlYW0iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSBzdmlndWllIiwibW9kaWZ5X3RpbWVzdGFtcCI6IjIwMTkxMDA0MTU1ODEwWiIsImdyb3VwcyI6WyJjYW11bmRhLWFkbWluIiwiYm5wIl0sInByZWZlcnJlZF91c2VybmFtZSI6InN2aWd1aWUiLCJnaXZlbl9uYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSIsImZhbWlseV9uYW1lIjoic3ZpZ3VpZSJ9.TuhQNCU9mEyDEAlSQgZ0QgOLtSkxJOg_99VvrlJZk1Vt7KKM3zdfEl5_JHtPUIq4c8JZDgCcLpyXBJnBn31DmtHFFgm8ImYeUhZEhtuJldLpqM-UywcT_9Cqt5U7NBmABO-EF6DwctYkT3VlSrthp9z1Rop8u03PbNA2McMXtqYTu1B3HesRFkUSD_0tczj4pIbDALRaad1xPGYdrbzF7JZG-AEbdE_EiGV5a8dQvi1IazAK7JDnvMA18Ynz783dYgDIMfYikXxMK_4XpDpLPNDLvUaC_wzyVqPimp141A9-bbMvmW2BBYfnTevyqcbw4mvtRP5hL3ce94xZ9m7hvA";
+    private static final String token = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnT2p6TkJLR3ljOVFOZHJNQ2FhVDBMLWFYRDBLeDYwc3JnMFFnWWhtSkhVIn0.eyJqdGkiOiJjMDA1OWQ0MS1lNjI4LTRmOTItOTI5Yi00MGE5ZDVkMWM0ZWMiLCJleHAiOjE1NzY3MTk3MjEsIm5iZiI6MCwiaWF0IjoxNTc2NzAxNzIxLCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA5MC95LWtleWNsb2FrL3JlYWxtcy95aWVsZHMiLCJhdWQiOlsicmVnaXN0cnkiLCJhY2NvdW50Il0sInN1YiI6IjUyOGEyOTg2LTlkMDEtNDczYS05MDkwLTMyOGQxZmY5OTZhYiIsInR5cCI6IkJlYXJlciIsImF6cCI6InktcG9ydGFsIiwibm9uY2UiOiI0OTNlZjk3Yi0wOTAyLTRmODMtOGExMC0zMzE5ZGEwNDYwMWMiLCJhdXRoX3RpbWUiOjE1NzY3MDE3MTgsInNlc3Npb25fc3RhdGUiOiIyYjM2MjkyZi00ODFiLTRhY2EtODY2NS02MDU4OTBlYjcyOGMiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWdpc3RyeSI6eyJyb2xlcyI6WyJjZW50cmFsLXRlYW0iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSBzdmlndWllIiwibW9kaWZ5X3RpbWVzdGFtcCI6IjIwMTkxMDA0MTU1ODEwWiIsImdyb3VwcyI6WyJjYW11bmRhLWFkbWluIiwiYm5wIl0sInByZWZlcnJlZF91c2VybmFtZSI6InN2aWd1aWUiLCJnaXZlbl9uYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSIsImZhbWlseV9uYW1lIjoic3ZpZ3VpZSJ9.asqrpcEV1AQC2EAKlHrAdO-fhvuqjpvVwca2ytxMJVrvinpXkMlBzQhT_YPZfIC_zVfsgCi1aOO7EInG-2xmuCGWi6V6vIqjI8cngxUa5QVdI5VG5m9ECUTrRPF08Lt6q7i1BxH3dcTZy-l-Ge0C4a7pFt7vYqEF8xU8dVHb_iwzNC99bgGhmOntKX7IQbrEMVLceFSIZqsBFdO0I3TBsK80Pj3QKHjaw4KcZUMSUIYi9KmY283inIZJypqJVs_n80ZsAd10YI92STRp4Xj7RWIVJ854CmgtLpDI5guQLL39Aq0RroQ8FFSypiXtmdiDskC60-DxUBn49tHY0EC4AA";
 
 
     public List<ModelDTO> getModels() {
@@ -41,24 +41,19 @@ public class ChironApi {
         return result;
     }
 
-    public void uploadRequiredData(ByteArrayInputStream fileData, String fileName) {
+    public void uploadRequiredData(byte[] fileData, String fileName) {
         HttpHeaders headers = headersWithToken();
         headers.setContentType(MediaType.MULTIPART_FORM_DATA);
 
         MultiValueMap<String, Object> body = new LinkedMultiValueMap<>();
 
-        try {
-            ByteArrayResource contentsAsResource = new ByteArrayResource(IOUtils.toByteArray(fileData)) {
-                @Override
-                public String getFilename() {
-                    return fileName;
-                }
-            };
-            body.add("file", contentsAsResource);
-        } catch (IOException e) {
-            log.error("Upload error", e);
-            throw new RuntimeException(e);
-        }
+        ByteArrayResource contentsAsResource = new ByteArrayResource(fileData) {
+            @Override
+            public String getFilename() {
+                return fileName;
+            }
+        };
+        body.add("file", contentsAsResource);
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
         RestTemplate restTemplate = new RestTemplate();
