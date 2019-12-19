@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static io.yields.bpm.bnp.chiron.NoSSLCheckRestTemplate.restTemplate;
+
 
 @UtilityClass
 @Slf4j
@@ -20,11 +22,11 @@ public class ChironApi {
 
     //TODO: make it configurable
     private static final String BASE_URL = "https://bnp.qa.yields.io/y-api";
-    private static final String token = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnT2p6TkJLR3ljOVFOZHJNQ2FhVDBMLWFYRDBLeDYwc3JnMFFnWWhtSkhVIn0.eyJqdGkiOiJjYmQ1MGRiYS1iZjliLTQ4MzctYWMzYy05NjExZmRmNTA1NTciLCJleHAiOjE1NzY3NzY3ODMsIm5iZiI6MCwiaWF0IjoxNTc2NzU4NzgzLCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA5MC95LWtleWNsb2FrL3JlYWxtcy95aWVsZHMiLCJhdWQiOlsicmVnaXN0cnkiLCJhY2NvdW50Il0sInN1YiI6IjUyOGEyOTg2LTlkMDEtNDczYS05MDkwLTMyOGQxZmY5OTZhYiIsInR5cCI6IkJlYXJlciIsImF6cCI6InktcG9ydGFsIiwibm9uY2UiOiI0NjY4ZDE0NC0xNDQ1LTQ3NGUtODIzNi01MDlmNmY2MWJjMTMiLCJhdXRoX3RpbWUiOjE1NzY3NTg3ODAsInNlc3Npb25fc3RhdGUiOiI2ZGQyOTkwNS0xZTRiLTQ4MTMtYTE3MC02MzkyZWJmYTY5YTIiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWdpc3RyeSI6eyJyb2xlcyI6WyJjZW50cmFsLXRlYW0iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSBzdmlndWllIiwibW9kaWZ5X3RpbWVzdGFtcCI6IjIwMTkxMDA0MTU1ODEwWiIsImdyb3VwcyI6WyJjYW11bmRhLWFkbWluIiwiYm5wIl0sInByZWZlcnJlZF91c2VybmFtZSI6InN2aWd1aWUiLCJnaXZlbl9uYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSIsImZhbWlseV9uYW1lIjoic3ZpZ3VpZSJ9.L0jFWsk86D4IE5h50RZ1EOfDNMydMNU8uubNuCOIgA85d4LlLrflqGoM0XlaZdUtpUKGnM9g4cXDCJ1n-ZWfPCneTUgL7wVTtYvEnCq9C8W-9mKMP6e9a3r0y1-w5SpfIDmFF5JH_zNmgLHGqrRlhJg9TPbO21oudJ1NLOYzP3SdR0wjpZaT5B4HQKithYyB4veZmm9Qvr4SoJSQPkGzSFsth6gUHFj4S865XVhTtlReImp4zdLg5K6PFa71EbU60xmWTQxNn5GLqjy5jW8By3iDz_2kvIZwNh3zmiC5Sv61sWUO9fp8bFZau19yEEUecnNBv11dO7bRxWDX03boWQ";
+    private static final String token = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnT2p6TkJLR3ljOVFOZHJNQ2FhVDBMLWFYRDBLeDYwc3JnMFFnWWhtSkhVIn0.eyJqdGkiOiI5ZDU3OWY3MC1jYzY5LTQ5MGMtOTZmZS1kNGQ2YWMxNTY2MmYiLCJleHAiOjE1NzY3OTk4ODUsIm5iZiI6MCwiaWF0IjoxNTc2NzgxODg1LCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA5MC95LWtleWNsb2FrL3JlYWxtcy95aWVsZHMiLCJhdWQiOlsicmVnaXN0cnkiLCJhY2NvdW50Il0sInN1YiI6IjUyOGEyOTg2LTlkMDEtNDczYS05MDkwLTMyOGQxZmY5OTZhYiIsInR5cCI6IkJlYXJlciIsImF6cCI6InktcG9ydGFsIiwibm9uY2UiOiI2YWNlOGY4Zi02M2E0LTQ4MWMtOGJlOC1mNzljNmU1YmQ1ZjUiLCJhdXRoX3RpbWUiOjE1NzY3ODE4ODAsInNlc3Npb25fc3RhdGUiOiJmMmQ5ZGZjYS00N2MwLTQ2YWQtOGU1NS01YTE4MDUwN2M1ZWQiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWdpc3RyeSI6eyJyb2xlcyI6WyJjZW50cmFsLXRlYW0iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSBzdmlndWllIiwibW9kaWZ5X3RpbWVzdGFtcCI6IjIwMTkxMDA0MTU1ODEwWiIsImdyb3VwcyI6WyJjYW11bmRhLWFkbWluIiwiYm5wIl0sInByZWZlcnJlZF91c2VybmFtZSI6InN2aWd1aWUiLCJnaXZlbl9uYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSIsImZhbWlseV9uYW1lIjoic3ZpZ3VpZSJ9.EsomT_TIbdblYtYs-ttMM2szG4cWVTv669fyEyDo2IjYoHvgWZyDMafei5cKynZckaoowMp-eVp_VliviXiEbMkjaQwvTc8-qAqpBUIVGvKqKzXLb2vlbQHfyBaZputO0N49H35Sd3TSLkzkgKF93oEdOTT8eStNWsquA0CNtk70e5kICxyLylBlzLRhU6KpvUfxz-nb1i1uIBYW3xapW9PuNVpaD_faMjpoVqPkkj6xSe85ZIJOnOoTwCQqJuO8XZ7igAMB3qzcVvrfQaHrLy-pluR4AB_082hiQD_xYqPQwxTZXdSUaLeK9okTOnZKzP5JXxDR0GJHOA9lNEDg-Q";
 
 
     public List<ModelDTO> getModels() {
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = restTemplate();
         HttpEntity<String> entity = new HttpEntity<>(headersWithToken());
         ResponseEntity<ModelDTO[]> response;
         try {
@@ -53,7 +55,7 @@ public class ChironApi {
         body.add("file", contentsAsResource);
 
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = restTemplate();
         ResponseEntity<String> response = null;
         try {
             response = restTemplate.postForEntity(BASE_URL + "/upload", requestEntity, String.class);
@@ -73,7 +75,7 @@ public class ChironApi {
         params.setDataSetId(ingestFileAndId.getValue());
         HttpEntity requestEntity = new HttpEntity<>(params, headersWithToken());
 
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = restTemplate();
         ResponseEntity<String> response = null;
         try {
             response = restTemplate.postForEntity(BASE_URL + "/ingest", requestEntity, String.class);
@@ -88,7 +90,7 @@ public class ChironApi {
     }
 
     public List<DatasetDTO> getDatasets() {
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = restTemplate();
         HttpEntity<String> entity = new HttpEntity<>(headersWithToken());
         ResponseEntity<DatasetDTO[]> response = null;
         try {
@@ -104,7 +106,7 @@ public class ChironApi {
 
 
     public String getIngestionStatus(String fileName, String datasetId) {
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = restTemplate();
         HttpEntity<String> entity = new HttpEntity<>(headersWithToken());
         ResponseEntity<IngestionDTO[]> response = null;
         try {
@@ -132,7 +134,7 @@ public class ChironApi {
     }
 
     public StageDTO getStage(String stageType, String name) {
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = restTemplate();
         HttpEntity<String> entity = new HttpEntity<>(headersWithToken());
         ResponseEntity<StageDTO[]> response = null;
         try {
@@ -151,7 +153,7 @@ public class ChironApi {
 
     public StartSessionResponse startSession(String stageId) {
         HttpEntity<String> requestEntity = new HttpEntity<>(headersWithToken());
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = restTemplate();
         ResponseEntity<StartSessionResponse> response = null;
         try {
             response = restTemplate.postForEntity(BASE_URL + String.format("/sessions/?stageId=%s", stageId),
@@ -169,7 +171,7 @@ public class ChironApi {
     }
 
     public SessionDetailsDTO getSessionDetails(String sessionId) {
-        RestTemplate restTemplate = new RestTemplate();
+        RestTemplate restTemplate = restTemplate();
         HttpEntity<String> entity = new HttpEntity<>(headersWithToken());
         ResponseEntity<SessionDetailsDTO> response = null;
         try {
