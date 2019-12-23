@@ -2,6 +2,18 @@
     <script src="angular.min.js" type="text/javascript"></script>
     <script src="camunda-bpm-sdk-angular.js" type="text/javascript"></script>
 
+
+    <script cam-script type="text/form-script">
+        camForm.on('form-loaded', function() {
+          // declare a 'json' variable 'customer'
+<!--          var teams = camForm.variableManager.fetchVariable('localTeams');-->
+    });
+
+<!--    	var variableManager = camForm.variableManager;-->
+<!--        console.log('variableManager', variableManager);-->
+
+    </script>
+
     <div class="form-group">
         <label for="campaignId">Campaign ID</label>
         <input id="campaignId"
@@ -22,6 +34,7 @@
     </div>
 
     <div>
+        <h3>Belgium:</h3>
         <div class="form-group">
             <label for="T_CRITERE_BEL">T_CRITERE_BEL</label>
             <input type="file"
@@ -54,7 +67,11 @@
         </div>
     </div>
 
-    <div ng-if="localTeam === 'France'">
+    <hr />
+
+    <div>
+        <h3>France:</h3>
+
         <div class="form-group">
             <label for="T_CRITERE_FRA">T_CRITERE_FRA</label>
             <input type="file"
