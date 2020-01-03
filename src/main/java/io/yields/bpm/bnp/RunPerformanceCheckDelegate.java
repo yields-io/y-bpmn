@@ -25,7 +25,7 @@ public class RunPerformanceCheckDelegate implements JavaDelegate {
 //      StartSessionResponse startSessionResponse = ChironApi.startSession(stage.getId());
 
       // FRA:
-      StageDTO stage = ChironApi.getStage("Analysis", "V12_FRAA0014V00_SCORE_ANALYSIS");
+      StageDTO stage = ChironApi.getStage("Analysis", "V12_FRAB0001V00_SCORE_ANALYSIS");
       StartSessionResponse startSessionResponse = ChironApi.startSession(stage.getId());
 
       boolean success = SessionsCheck.allSessionsCompletedWithSuccess(startSessionResponse.getIds());
