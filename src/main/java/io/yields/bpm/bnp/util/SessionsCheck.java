@@ -1,4 +1,4 @@
-package io.yields.bpm.bnp;
+package io.yields.bpm.bnp.util;
 
 import io.yields.bpm.bnp.chiron.ChironApi;
 import lombok.experimental.UtilityClass;
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Slf4j
 @UtilityClass
-class SessionsCheck {
+public class SessionsCheck {
 
     public boolean allSessionsCompletedWithSuccess(List<String> sessionIds) {
         return RetryUtil.checkWithRetry(
