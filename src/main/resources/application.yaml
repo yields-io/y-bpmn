@@ -1,30 +1,32 @@
-camunda.bpm:
-  admin-user:
-    id: demo
-    password: demo
-    firstName: Demo
-  filter:
-    create: All tasks
+#camunda.bpm:
+#  admin-user:
+#    id: demo
+#    password: demo
+#    firstName: Demo
+#  filter:
+#    create: All tasks
 
 # for keycloak uncomment this and comment out admin-user above
 # also uncomment keycloak dependency in the pom.xml
 
-#camunda.bpm:
-##  webapp:
-##    index-redirect-enabled: true
-##  history-level: audit
-#  authorization:
-#    enabled: true
-#  filter:
-#    create: All tasks
+camunda.bpm:
+#  webapp:
+#    index-redirect-enabled: true
+  history-level: audit
+  authorization:
+    enabled: true
+  filter:
+    create: All tasks
 
-#plugin.identity.keycloak:
-#  keycloakIssuerUrl: https://bnp.qa.yields.io/y-keycloak/realms/yields
-#  keycloakAdminUrl: https://bnp.qa.yields.io/y-keycloak/admin/realms/yields
-#  clientId: camunda-identity-service
-#  clientSecret: 15fdf9ae-ca24-4e9c-af64-e45d10471acc
-#  useEmailAsCamundaUserId: true
-#  administratorGroupName: camunda-admin
+plugin.identity.keycloak:
+  keycloakIssuerUrl: https://keycloak.dev.bolt.acaisoft.io/auth/realms/yields
+  keycloakAdminUrl: https://keycloak.dev.bolt.acaisoft.io/auth/admin/realms/yields
+  clientId: camunda-identity-service
+  clientSecret: c08f343f-3870-4948-9a36-434d8c1ffb75
+  useEmailAsCamundaUserId: false
+  useUsernameAsCamundaUserId: true
+  useGroupPathAsCamundaGroupId : true
+  administratorGroupName: camunda-admin
 
 
 keycloak:
@@ -49,7 +51,7 @@ security:
 
 # Camunda Rest API
 rest.security:
-  enabled: false
+  enabled: true
   jwk-set-url: ${keycloak.url.token}/auth/realms/yields/protocol/openid-connect/certs
   required-audience: camunda-rest-api
 
