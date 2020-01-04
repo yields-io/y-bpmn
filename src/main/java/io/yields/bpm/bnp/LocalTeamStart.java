@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class LocalTeamStart implements JavaDelegate {
 
-
     private final YieldsProperties yieldsProperties;
 
     @Override

@@ -1,14 +1,22 @@
 <head>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+<style>
+    .error {
+        color: #bf3333;
+    }
+</style>
 
 <form name="uploadRequiredData">
     <script src="angular.min.js" type="text/javascript"></script>
     <script src="camunda-bpm-sdk-angular.js" type="text/javascript"></script>
 
+    <input type="hidden"
+           cam-variable-name="processError"
+           cam-variable-type="String"
+           ng-model="processError">
 
-    <script cam-script type="text/form-script">
-    </script>
+    <h3 class="error" ng-if="processError">Processing failed {{ processError }}</h3>
 
     <div class="form-group">
         <label for="campaignId">Campaign ID</label>
