@@ -2,23 +2,25 @@ package io.yields.bpm.bnp;
 
 import io.yields.bpm.bnp.chiron.ChironApi;
 import io.yields.bpm.bnp.chiron.ModelDTO;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.variable.Variables;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 import static org.camunda.bpm.engine.variable.Variables.objectValue;
 
 @Slf4j
+@Component
+@RequiredArgsConstructor
 public class RetrieveAllModelsDelegate implements JavaDelegate {
 
-  private final static Logger LOGGER = Logger.getLogger("RETRIEVE-MODELS");
 
   public void execute(DelegateExecution execution) throws Exception {
     log.info("STARTING RetrieveAllModels STEP");
@@ -29,7 +31,8 @@ public class RetrieveAllModelsDelegate implements JavaDelegate {
     execution.setVariable("modelList",
             objectValue(models)
                     .serializationDataFormat(Variables.SerializationDataFormats.JSON)
-                    .create());
+                    .create()
+    );
 
     List<String> localTeams = new ArrayList<String>();
     localTeams.add("France");

@@ -1,4 +1,4 @@
-package io.yields.bpm.bnp;
+package io.yields.bpm.bnp.util;
 
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
@@ -13,10 +13,10 @@ import static org.awaitility.Awaitility.with;
 
 @UtilityClass
 @Slf4j
-class RetryUtil {
+public class RetryUtil {
 
-    boolean checkWithRetry(Callable<Boolean> conditionEvaluator,
-                           String timeoutMessage) {
+    public boolean checkWithRetry(Callable<Boolean> conditionEvaluator,
+                                  String timeoutMessage) {
 
         boolean result;
         try {

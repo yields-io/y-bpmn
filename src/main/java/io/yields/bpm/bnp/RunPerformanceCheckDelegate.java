@@ -3,6 +3,7 @@ package io.yields.bpm.bnp;
 import io.yields.bpm.bnp.chiron.ChironApi;
 import io.yields.bpm.bnp.chiron.StageDTO;
 import io.yields.bpm.bnp.chiron.StartSessionResponse;
+import io.yields.bpm.bnp.util.SessionsCheck;
 import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -20,7 +21,12 @@ public class RunPerformanceCheckDelegate implements JavaDelegate {
       // FOR NOW HARDCODED
 
       //stages?stageType=Analysis&name=V12_BELA0014V00_SCORE_ANALYSIS
-      StageDTO stage = ChironApi.getStage("Analysis", "V12_BELA0014V00_SCORE_ANALYSIS");
+      // BEL:
+//      StageDTO stage = ChironApi.getStage("Analysis", "V12_BELA0014V00_SCORE_ANALYSIS");
+//      StartSessionResponse startSessionResponse = ChironApi.startSession(stage.getId());
+
+      // FRA:
+      StageDTO stage = ChironApi.getStage("Analysis", "V12_FRAB0001V00_SCORE_ANALYSIS");
       StartSessionResponse startSessionResponse = ChironApi.startSession(stage.getId());
 
       boolean success = SessionsCheck.allSessionsCompletedWithSuccess(startSessionResponse.getIds());

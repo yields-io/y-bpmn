@@ -16,12 +16,16 @@
  */
 package io.yields.bpm.bnp.app;
 
+import io.yields.bpm.bnp.config.YieldsProperties;
+import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.spring.boot.starter.annotation.EnableProcessApplication;
 import org.camunda.bpm.spring.boot.starter.event.PostDeployEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.event.EventListener;
 
 import java.security.KeyManagementException;
@@ -30,10 +34,14 @@ import java.security.NoSuchAlgorithmException;
 
 @SpringBootApplication
 @EnableProcessApplication
+@EnableConfigurationProperties(YieldsProperties.class)
+@ComponentScan("io.yields.bpm.bnp")
+@Slf4j
 public class WebappExampleProcessApplication {
 
   @Autowired
   private RuntimeService runtimeService;
+
 
   public static void main(String... args) throws KeyManagementException, NoSuchAlgorithmException {
     SpringApplication.run(WebappExampleProcessApplication.class, args);

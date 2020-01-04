@@ -22,7 +22,9 @@ public class ChironApi {
 
     //TODO: make it configurable
     private static final String BASE_URL = "https://bnp.qa.yields.io/y-api";
-    private static final String token = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnT2p6TkJLR3ljOVFOZHJNQ2FhVDBMLWFYRDBLeDYwc3JnMFFnWWhtSkhVIn0.eyJqdGkiOiI5ZDU3OWY3MC1jYzY5LTQ5MGMtOTZmZS1kNGQ2YWMxNTY2MmYiLCJleHAiOjE1NzY3OTk4ODUsIm5iZiI6MCwiaWF0IjoxNTc2NzgxODg1LCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA5MC95LWtleWNsb2FrL3JlYWxtcy95aWVsZHMiLCJhdWQiOlsicmVnaXN0cnkiLCJhY2NvdW50Il0sInN1YiI6IjUyOGEyOTg2LTlkMDEtNDczYS05MDkwLTMyOGQxZmY5OTZhYiIsInR5cCI6IkJlYXJlciIsImF6cCI6InktcG9ydGFsIiwibm9uY2UiOiI2YWNlOGY4Zi02M2E0LTQ4MWMtOGJlOC1mNzljNmU1YmQ1ZjUiLCJhdXRoX3RpbWUiOjE1NzY3ODE4ODAsInNlc3Npb25fc3RhdGUiOiJmMmQ5ZGZjYS00N2MwLTQ2YWQtOGU1NS01YTE4MDUwN2M1ZWQiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWdpc3RyeSI6eyJyb2xlcyI6WyJjZW50cmFsLXRlYW0iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSBzdmlndWllIiwibW9kaWZ5X3RpbWVzdGFtcCI6IjIwMTkxMDA0MTU1ODEwWiIsImdyb3VwcyI6WyJjYW11bmRhLWFkbWluIiwiYm5wIl0sInByZWZlcnJlZF91c2VybmFtZSI6InN2aWd1aWUiLCJnaXZlbl9uYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSIsImZhbWlseV9uYW1lIjoic3ZpZ3VpZSJ9.EsomT_TIbdblYtYs-ttMM2szG4cWVTv669fyEyDo2IjYoHvgWZyDMafei5cKynZckaoowMp-eVp_VliviXiEbMkjaQwvTc8-qAqpBUIVGvKqKzXLb2vlbQHfyBaZputO0N49H35Sd3TSLkzkgKF93oEdOTT8eStNWsquA0CNtk70e5kICxyLylBlzLRhU6KpvUfxz-nb1i1uIBYW3xapW9PuNVpaD_faMjpoVqPkkj6xSe85ZIJOnOoTwCQqJuO8XZ7igAMB3qzcVvrfQaHrLy-pluR4AB_082hiQD_xYqPQwxTZXdSUaLeK9okTOnZKzP5JXxDR0GJHOA9lNEDg-Q";
+
+    // access_token: "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnT2p6TkJLR3ljOVFOZHJNQ2FhVDBMLWFYRDBLeDYwc3JnMFFnWWhtSkhVIn0.eyJqdGkiOiIwNTdhOGVmOC1lMGMwLTQwOTAtOGUzNC0xOGFjMjgzNWQ3NDUiLCJleHAiOjE1NzgwOTkyNjUsIm5iZiI6MCwiaWF0IjoxNTc4MDgxMjY1LCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA5MC95LWtleWNsb2FrL3JlYWxtcy95aWVsZHMiLCJhdWQiOlsicmVnaXN0cnkiLCJhY2NvdW50Il0sInN1YiI6IjUyOGEyOTg2LTlkMDEtNDczYS05MDkwLTMyOGQxZmY5OTZhYiIsInR5cCI6IkJlYXJlciIsImF6cCI6InktcG9ydGFsIiwibm9uY2UiOiJmNWIwMmU3Mi0wYjI4LTQ2YmEtODlkZC02ZDE3OGUwNTcwOWYiLCJhdXRoX3RpbWUiOjE1NzgwODEyNjIsInNlc3Npb25fc3RhdGUiOiI2NzNhNTAyNi1kZDUwLTQ4YzgtOTY4ZS0xM2Q1YzBlODIzYzUiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWdpc3RyeSI6eyJyb2xlcyI6WyJjZW50cmFsLXRlYW0iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSBzdmlndWllIiwibW9kaWZ5X3RpbWVzdGFtcCI6IjIwMTkxMDA0MTU1ODEwWiIsImdyb3VwcyI6WyJjYW11bmRhLWFkbWluIiwiYm5wIl0sInByZWZlcnJlZF91c2VybmFtZSI6InN2aWd1aWUiLCJnaXZlbl9uYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSIsImZhbWlseV9uYW1lIjoic3ZpZ3VpZSJ9.FTRlClAfAktyMlblDX82RPiiPwIzP-xQejkzzv0PNRzHaxRkGEdhUxgtPVmT4LmXW43TfFT8QX20nnYTOeO72CzDh_4rH1FdXRdRkaDoni1Hr9OPCpa9FfHGm6wr9OewafpMV8fh4oJ9B-yAS5E8R_3WjwEFubpjuKPxvygxqHVnKyPRHjOPRIMw_8TckiJNReNIPzu57Ur_BrwfKeikhf-dMU4wiMkL7kkDFJQpc_wVE0_jg56-PfL1x3Y2bswaxt5_RUByi8w40gCnvzI2fqXiTmNFZIxu83JrWI_pSExnRJ3Ji9SHpzGGMC_94RIkndLkXeye5NYP-rNuhoxvtg"
+    private static final String token = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnT2p6TkJLR3ljOVFOZHJNQ2FhVDBMLWFYRDBLeDYwc3JnMFFnWWhtSkhVIn0.eyJqdGkiOiIwNTdhOGVmOC1lMGMwLTQwOTAtOGUzNC0xOGFjMjgzNWQ3NDUiLCJleHAiOjE1NzgwOTkyNjUsIm5iZiI6MCwiaWF0IjoxNTc4MDgxMjY1LCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA5MC95LWtleWNsb2FrL3JlYWxtcy95aWVsZHMiLCJhdWQiOlsicmVnaXN0cnkiLCJhY2NvdW50Il0sInN1YiI6IjUyOGEyOTg2LTlkMDEtNDczYS05MDkwLTMyOGQxZmY5OTZhYiIsInR5cCI6IkJlYXJlciIsImF6cCI6InktcG9ydGFsIiwibm9uY2UiOiJmNWIwMmU3Mi0wYjI4LTQ2YmEtODlkZC02ZDE3OGUwNTcwOWYiLCJhdXRoX3RpbWUiOjE1NzgwODEyNjIsInNlc3Npb25fc3RhdGUiOiI2NzNhNTAyNi1kZDUwLTQ4YzgtOTY4ZS0xM2Q1YzBlODIzYzUiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWdpc3RyeSI6eyJyb2xlcyI6WyJjZW50cmFsLXRlYW0iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSBzdmlndWllIiwibW9kaWZ5X3RpbWVzdGFtcCI6IjIwMTkxMDA0MTU1ODEwWiIsImdyb3VwcyI6WyJjYW11bmRhLWFkbWluIiwiYm5wIl0sInByZWZlcnJlZF91c2VybmFtZSI6InN2aWd1aWUiLCJnaXZlbl9uYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSIsImZhbWlseV9uYW1lIjoic3ZpZ3VpZSJ9.FTRlClAfAktyMlblDX82RPiiPwIzP-xQejkzzv0PNRzHaxRkGEdhUxgtPVmT4LmXW43TfFT8QX20nnYTOeO72CzDh_4rH1FdXRdRkaDoni1Hr9OPCpa9FfHGm6wr9OewafpMV8fh4oJ9B-yAS5E8R_3WjwEFubpjuKPxvygxqHVnKyPRHjOPRIMw_8TckiJNReNIPzu57Ur_BrwfKeikhf-dMU4wiMkL7kkDFJQpc_wVE0_jg56-PfL1x3Y2bswaxt5_RUByi8w40gCnvzI2fqXiTmNFZIxu83JrWI_pSExnRJ3Ji9SHpzGGMC_94RIkndLkXeye5NYP-rNuhoxvtg";
 
 
     public List<ModelDTO> getModels() {
@@ -126,7 +128,7 @@ public class ChironApi {
                     .map(ingestionDTO -> ingestionDTO.getStatus())
                     .findFirst()
                     .orElse("");  // may not be available immediately
-            log.debug("Ingestion status for fileName: {}, {}", fileName, result);
+            log.info("Ingestion status for fileName: {}, {}", fileName, result);
             return result;
         }
 
@@ -146,7 +148,7 @@ public class ChironApi {
         log.debug("getStage: {}", response);
         List<StageDTO> stages = Lists.newArrayList(response.getBody());
         if (stages.size() != 1) {
-            throw new RuntimeException("Could not get unique state for: " + stageType + ", " + name);
+            throw new RuntimeException("Could not get unique stage for: " + stageType + ", " + name);
         }
         return stages.get(0);
     }
@@ -181,7 +183,9 @@ public class ChironApi {
             log.error("getStage error", e);
         }
         log.debug("getStage: {}", response);
-        return response.getBody();
+        SessionDetailsDTO sessionDetails = response.getBody();
+        log.info("Session {} status {}", sessionId, sessionDetails.getStatus());
+        return sessionDetails;
     }
 
 
