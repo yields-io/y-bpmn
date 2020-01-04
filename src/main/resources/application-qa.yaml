@@ -1,5 +1,4 @@
 yields:
-  test: Test!!
   mappings:
     France:
       -
@@ -54,3 +53,19 @@ yields:
         dataSet: V12_MONITORING_BELA0014V00
         fileNameTemplate: T_MONITORING_%s_BELA0014V00.csv
         ifModel: BELA0014V00
+  dataChecks:
+    France:
+      stageType: Derivation
+      dataSet: V12_SCORE_ANALYSIS_FRA
+    Belgium:
+      stageType: Derivation
+      dataSet: V12_SCORE_ANALYSIS_BEL
+  dataCheckReportUrlTemplate: https://bnp.qa.yields.io/analysis/%s/inspect
+  pefrormanceChecks:
+    France:
+      stageType: Analysis
+      dataSet: V12_FRAB0001V00_SCORE_ANALYSIS
+    Belgium:
+      stageType: Analysis
+      dataSet: V12_BELA0014V00_SCORE_ANALYSIS
+  performanceCheckReportUrlTemplate: https://bnp.qa.yields.io/analysis/%s/inspect

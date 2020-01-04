@@ -73,7 +73,7 @@
       </bpmn:sequenceFlow>
       <bpmn:sequenceFlow id="SequenceFlow_1owwngg" sourceRef="Task_00hwi28" targetRef="Task_0jccbxl" />
       <bpmn:sequenceFlow id="SequenceFlow_1ah5nvy" sourceRef="StartEvent_1eswzxm" targetRef="ServiceTask_start" />
-      <bpmn:serviceTask id="Task_0wj1bg3" name="Run performance check" camunda:class="io.yields.bpm.bnp.RunPerformanceCheckDelegate">
+      <bpmn:serviceTask id="Task_0wj1bg3" name="Run performance check" camunda:delegateExpression="${runPerformanceCheckDelegate}">
         <bpmn:incoming>SequenceFlow_1eb4vs8</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_runPerformanceCheck</bpmn:outgoing>
       </bpmn:serviceTask>
@@ -82,7 +82,7 @@
         <bpmn:outgoing>SequenceFlow_1qo7w8q</bpmn:outgoing>
         <bpmn:outgoing>SequenceFlow_1eb4vs8</bpmn:outgoing>
       </bpmn:exclusiveGateway>
-      <bpmn:serviceTask id="Task_0qtg5s7" name="Run data check" camunda:class="io.yields.bpm.bnp.RunDataCheckDelegate">
+      <bpmn:serviceTask id="Task_0qtg5s7" name="Run data check" camunda:delegateExpression="${runDataCheckDelegate}">
         <bpmn:incoming>SequenceFlow_ingestDataCheckOk</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_runDataCheck</bpmn:outgoing>
       </bpmn:serviceTask>
@@ -101,7 +101,7 @@
         <bpmn:incoming>SequenceFlow_1nbo06y</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1owwngg</bpmn:outgoing>
       </bpmn:userTask>
-      <bpmn:serviceTask id="Task_0jccbxl" name="Upload required data" camunda:class="io.yields.bpm.bnp.UploadRequiredDataDelegate">
+      <bpmn:serviceTask id="Task_0jccbxl" name="Upload required data" camunda:delegateExpression="${uploadRequiredDataDelegate}">
         <bpmn:extensionElements>
           <camunda:inputOutput>
             <camunda:inputParameter name="localTeam">${localTeams[loopCounter]}</camunda:inputParameter>
