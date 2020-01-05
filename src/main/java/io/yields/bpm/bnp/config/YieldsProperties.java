@@ -13,7 +13,9 @@ import java.util.Map;
 @Data
 public class YieldsProperties {
 
-    private String test;
     private Map<String, List<FileMapping>> mappings;
-
+    private Map<String, CheckProps> dataChecks;
+    private Map<String, CheckProps> performanceChecks;
+    private String dataCheckReportUrlTemplate;
+    private String performanceCheckReportUrlTemplate;
 }

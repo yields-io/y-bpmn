@@ -1,0 +1,71 @@
+yields:
+  mappings:
+    France:
+      -
+        processVariable: T_CRITERE_FRA
+        dataSet: V12_CRITERE_FRA
+        fileNameTemplate: T_CRITERE_%s_FRA.csv
+        ifModel: #empty matches all
+      -
+        processVariable: T_REF_FRA
+        dataSet: V12_REF_FRA
+        fileNameTemplate: V12_REF_%s_FRA.csv
+        ifModel:
+      -
+        processVariable: T_SCORE_FRA
+        dataSet: V12_SCORE_FRA
+        fileNameTemplate: T_SCORE_%s_FRA.csv
+        ifModel:
+      -
+        processVariable: T_MONITORING_FRAA0014V00
+        dataSet: V12_MONITORING_FRAA0014V00
+        fileNameTemplate: V12_MONITORING_%s_FRAA0014V00.csv
+        ifModel: FRAA0014V00
+      -
+        processVariable: T_MONITORING_FRAB0001V00
+        dataSet: V12_MONITORING_FRAB0001V00
+        fileNameTemplate: V12_MONITORING_%s_FRAB0001V00.csv
+        ifModel: FRAB0001V00
+
+    Belgium:
+      -
+        processVariable: T_CRITERE_BEL
+        dataSet: V12_CRITERE_BEL
+        fileNameTemplate: T_CRITERE_%s_BEL.csv
+        ifModel:
+      -
+        processVariable: T_REF_BEL
+        dataSet: V12_REF_BEL
+        fileNameTemplate: V12_REF_%s_BEL.csv
+        ifModel:
+      -
+        processVariable: T_SCORE_BEL
+        dataSet: V12_SCORE_BEL
+        fileNameTemplate: T_SCORE_%s_BEL.csv
+        ifModel:
+      -
+        processVariable: T_SCORE_VAR_BEL
+        dataSet: V12_SCORE_VAR_BEL
+        fileNameTemplate: T_SCORE_VAR_%s_BEL.csv
+        ifModel:
+      -
+        processVariable: T_MONITORING_BEL
+        dataSet: V12_MONITORING_BELA0014V00
+        fileNameTemplate: T_MONITORING_%s_BELA0014V00.csv
+        ifModel: BELA0014V00
+  dataChecks:
+    France:
+      stageType: Derivation
+      dataSet: V12_SCORE_ANALYSIS_FRA
+    Belgium:
+      stageType: Derivation
+      dataSet: V12_SCORE_ANALYSIS_BEL
+  dataCheckReportUrlTemplate: https://bnp.qa.yields.io/analysis/%s/inspect
+  pefrormanceChecks:
+    France:
+      stageType: Analysis
+      dataSet: V12_FRAB0001V00_SCORE_ANALYSIS
+    Belgium:
+      stageType: Analysis
+      dataSet: V12_BELA0014V00_SCORE_ANALYSIS
+  performanceCheckReportUrlTemplate: https://bnp.qa.yields.io/analysis/%s/inspect

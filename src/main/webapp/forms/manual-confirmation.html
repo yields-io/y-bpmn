@@ -1,15 +1,26 @@
 <form name="manualConfirmation">
     <div class="form-group">
         <label for="campaignId">Campaign ID</label>
-        <input class="form-control" cam-variable-type="String" cam-variable-name="campaignId" name="campaignId"
+        <input id="campaignId" class="form-control" cam-variable-type="String" cam-variable-name="campaignId" name="campaignId"
                readonly="true"/>
     </div>
+
+    <p>
+        <input type="hidden"
+               cam-variable-name="dataCheckReportUrl"
+               cam-variable-type="String"
+               ng-model="dataCheckReportUrl">
+
+        <a ng-href="{{dataCheckReportUrl}}">Data check report</a>
+    </p>
+
     <div class="form-group">
         <label for="checkConfirmed">Data correct?</label>
 <!--        <input type="checkbox"-->
 <!--               cam-variable-name="manualConfirmation"-->
 <!--               cam-variable-type="Boolean"/>-->
-        <select cam-variable-name="checkConfirmed"
+        <select id="checkConfirmed"
+                cam-variable-name="checkConfirmed"
                 cam-variable-type="String">
             <option value="yes">Yes</option>
             <option value="no">No</option>
