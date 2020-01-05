@@ -65,11 +65,14 @@ public class WebappExampleProcessApplication {
   }
 
   private void addTeamAuthorizations() {
-    String[] teams = new String[] { "France", "Belgium" };
-    AuthDTO[] authorizations = new AuthDTO[] {
-        AuthDTO.builder().resource(Resources.APPLICATION).resourceId("tasklist").permissions(Arrays.asList(Permissions.ALL)).build(),
-        AuthDTO.builder().resource(Resources.APPLICATION).resourceId("cockpit").permissions(Arrays.asList(Permissions.ALL)).build(),
-        AuthDTO.builder().resource(Resources.FILTER).resourceId("*").permissions(Arrays.asList(Permissions.ALL)).build(),
+    String[] teams = new String[]{"France", "Belgium"};
+    AuthDTO[] authorizations = new AuthDTO[]{
+        AuthDTO.builder().resource(Resources.APPLICATION).resourceId("tasklist")
+            .permissions(Arrays.asList(Permissions.ALL)).build(),
+        AuthDTO.builder().resource(Resources.APPLICATION).resourceId("cockpit")
+            .permissions(Arrays.asList(Permissions.ALL)).build(),
+        AuthDTO.builder().resource(Resources.FILTER).resourceId("*")
+            .permissions(Arrays.asList(Permissions.ALL)).build(),
     };
     for (String team : teams) {
       for (AuthDTO authorization : authorizations) {
