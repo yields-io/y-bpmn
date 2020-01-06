@@ -61,7 +61,7 @@ yields:
       stageType: Derivation
       dataSet: V12_SCORE_ANALYSIS_BEL
   dataCheckReportUrlTemplate: https://bnp.qa.yields.io/analysis/%s/inspect
-  pefrormanceChecks:
+  performanceChecks:
     France:
       stageType: Analysis
       dataSet: V12_FRAB0001V00_SCORE_ANALYSIS
