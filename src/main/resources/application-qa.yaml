@@ -1,3 +1,4 @@
+
 yields:
   mappings:
     France:
@@ -17,6 +18,11 @@ yields:
         fileNameTemplate: T_SCORE_%s_FRA.csv
         ifModel:
       -
+        processVariable: T_SCORE_VAR_FRA
+        dataSet: V12_SCORE_VAR_FRA
+        fileNameTemplate: T_SCORE_VAR_%s_FRA.csv
+        ifModel:
+      -
         processVariable: T_MONITORING_FRAA0014V00
         dataSet: V12_MONITORING_FRAA0014V00
         fileNameTemplate: V12_MONITORING_%s_FRAA0014V00.csv
@@ -26,7 +32,6 @@ yields:
         dataSet: V12_MONITORING_FRAB0001V00
         fileNameTemplate: V12_MONITORING_%s_FRAB0001V00.csv
         ifModel: FRAB0001V00
-
     Belgium:
       -
         processVariable: T_CRITERE_BEL
