@@ -29,7 +29,7 @@ public class RunDataCheckDelegate implements JavaDelegate {
         StageDTO stage = ChironApi.getStage(dataCheckProps.getStageType(), dataCheckProps.getDataSet());
         StartSessionResponse startSessionResponse = ChironApi.startSession(stage.getId());
 
-        boolean success = SessionsCheck.allSessionsCompletedWithSuccess(startSessionResponse.getIds());
+        boolean success = SessionsCheck.allSessionsCompletedWithSuccess(execution, startSessionResponse.getIds());
         execution.setVariable(ProcessVariables.dataCheckSuccess, success);
         execution.setVariable(ProcessVariables.dataCheckReportUrl,
                 String.format(yieldsProperties.getDataCheckReportUrlTemplate(), stage.getId()));

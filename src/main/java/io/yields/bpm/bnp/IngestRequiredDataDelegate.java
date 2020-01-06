@@ -57,7 +57,7 @@ public class IngestRequiredDataDelegate implements JavaDelegate {
 
     private void breakIfError(Map<String, String> ingestStatuses) {
         Optional<Map.Entry<String, String>> error = ingestStatuses.entrySet().stream()
-                .filter(entry -> !entry.getValue().equals("Error"))
+                .filter(entry -> entry.getValue().equals("Error"))
                 .findAny();
         if (error.isPresent()) {
             throw new RuntimeException("Ingestion error for file: " + error.get().getKey());

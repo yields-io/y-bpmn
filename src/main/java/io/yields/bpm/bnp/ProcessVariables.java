@@ -1,6 +1,6 @@
 package io.yields.bpm.bnp;
 
-interface ProcessVariables {
+public interface ProcessVariables {
 
     // ingest ids map
     String DATASET_IDS = "DATASET_IDS";

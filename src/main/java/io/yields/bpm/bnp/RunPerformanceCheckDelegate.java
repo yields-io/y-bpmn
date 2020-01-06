@@ -29,7 +29,7 @@ public class RunPerformanceCheckDelegate implements JavaDelegate {
         StageDTO stage = ChironApi.getStage(performanceCheckProps.getStageType(), performanceCheckProps.getDataSet());
         StartSessionResponse startSessionResponse = ChironApi.startSession(stage.getId());
 
-        boolean success = SessionsCheck.allSessionsCompletedWithSuccess(startSessionResponse.getIds());
+        boolean success = SessionsCheck.allSessionsCompletedWithSuccess(execution, startSessionResponse.getIds());
         execution.setVariable(ProcessVariables.performanceCheckSuccess, success);
         execution.setVariable(ProcessVariables.performanceCheckReportUrl,
                 String.format(yieldsProperties.getPerformanceCheckReportUrlTemplate(), stage.getId())
