@@ -47,7 +47,7 @@
       <bpmn:outgoing>SequenceFlow_09q47wj</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="SequenceFlow_1xfl0gy" sourceRef="Task_0riokkz" targetRef="Task_1h71rwv" />
-    <bpmn:userTask id="Task_1h71rwv" name="Receive report">
+    <bpmn:userTask id="Task_1h71rwv" name="Receive report" camunda:formKey="embedded:app:forms/receive-report.html">
       <bpmn:incoming>SequenceFlow_1xfl0gy</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0wb2akl</bpmn:outgoing>
     </bpmn:userTask>
