@@ -22,18 +22,27 @@ public class RunPerformanceCheckDelegate implements JavaDelegate {
 
     public void execute(DelegateExecution execution) {
         log.info("STARTING RunPerformanceCheck STEP");
+        boolean success = false;
+
         String localTeam = (String) execution.getVariable("localTeam");
         CheckProps performanceCheckProps = yieldsProperties.getPerformanceChecks().get(localTeam);
         log.debug("performanceCheckProps: {}", performanceCheckProps);
 
-        StageDTO stage = ChironApi.getStage(performanceCheckProps.getStageType(), performanceCheckProps.getDataSet());
-        StartSessionResponse startSessionResponse = ChironApi.startSession(stage.getId());
+        try {
+            StageDTO stage = ChironApi.getStage(performanceCheckProps.getStageType(), performanceCheckProps.getDataSet());
 
-        boolean success = SessionsCheck.allSessionsCompletedWithSuccess(execution, startSessionResponse.getIds());
+            StartSessionResponse startSessionResponse = ChironApi.startSession(stage.getId());
+            success = SessionsCheck.allSessionsCompletedWithSuccess(execution, startSessionResponse.getIds());
+            execution.setVariable(ProcessVariables.performanceCheckReportUrl,
+                    String.format(yieldsProperties.getPerformanceCheckReportUrlTemplate(), stage.getId())
+            );
+        } catch (Exception e) {
+            execution.setVariable(ProcessVariables.processError,
+                    e.getMessage() + String.format("Stage: %s, dataset: %s", performanceCheckProps.getStageType(), performanceCheckProps.getDataSet())
+            );
+        }
+
         execution.setVariable(ProcessVariables.performanceCheckSuccess, success);
-        execution.setVariable(ProcessVariables.performanceCheckReportUrl,
-                String.format(yieldsProperties.getPerformanceCheckReportUrlTemplate(), stage.getId())
-        );
 
         log.info("RunPerformanceCheck success: {}", success);
     }

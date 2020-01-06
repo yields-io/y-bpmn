@@ -22,17 +22,24 @@ public class RunDataCheckDelegate implements JavaDelegate {
 
     public void execute(DelegateExecution execution) {
         log.info("STARTING RunDataCheck STEP");
+        boolean success = false;
 
-        String localTeam = (String) execution.getVariable("localTeam");
-        CheckProps dataCheckProps = yieldsProperties.getDataChecks().get(localTeam);
-        log.debug("DatacheckProps: {}", dataCheckProps);
-        StageDTO stage = ChironApi.getStage(dataCheckProps.getStageType(), dataCheckProps.getDataSet());
-        StartSessionResponse startSessionResponse = ChironApi.startSession(stage.getId());
+        try {
+            String localTeam = (String) execution.getVariable("localTeam");
+            CheckProps dataCheckProps = yieldsProperties.getDataChecks().get(localTeam);
+            log.debug("DatacheckProps: {}", dataCheckProps);
+            StageDTO stage = ChironApi.getStage(dataCheckProps.getStageType(), dataCheckProps.getDataSet());
+            StartSessionResponse startSessionResponse = ChironApi.startSession(stage.getId());
 
-        boolean success = SessionsCheck.allSessionsCompletedWithSuccess(execution, startSessionResponse.getIds());
+            success = SessionsCheck.allSessionsCompletedWithSuccess(execution, startSessionResponse.getIds());
+            execution.setVariable(ProcessVariables.dataCheckReportUrl,
+                    String.format(yieldsProperties.getDataCheckReportUrlTemplate(), stage.getId())
+            );
+        } catch (Exception e) {
+            execution.setVariable(ProcessVariables.processError, e.getMessage());
+        }
+
         execution.setVariable(ProcessVariables.dataCheckSuccess, success);
-        execution.setVariable(ProcessVariables.dataCheckReportUrl,
-                String.format(yieldsProperties.getDataCheckReportUrlTemplate(), stage.getId()));
 
         log.info("RunDataCheck success? {}", success);
     }
