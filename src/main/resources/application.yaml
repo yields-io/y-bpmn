@@ -19,41 +19,44 @@ camunda.bpm:
     create: All tasks
 
 plugin.identity.keycloak:
-  keycloakIssuerUrl: https://keycloak.dev.bolt.acaisoft.io/auth/realms/yields
-  keycloakAdminUrl: https://keycloak.dev.bolt.acaisoft.io/auth/admin/realms/yields
+  keycloakIssuerUrl: https://bnp.qa.yields.io/y-keycloak/realms/yields
+  keycloakAdminUrl: https://bnp.qa.yields.io/y-keycloak/admin/realms/yields
   clientId: camunda-identity-service
-  clientSecret: c08f343f-3870-4948-9a36-434d8c1ffb75
+  clientSecret: 15fdf9ae-ca24-4e9c-af64-e45d10471acc
   useEmailAsCamundaUserId: false
   useUsernameAsCamundaUserId: true
   useGroupPathAsCamundaGroupId : true
-  administratorGroupName: Central
+  administratorGroupName: camunda-admin
+  disableSSLCertificateValidation: true
 
 
-keycloak:
-  url.auth: ${KEYCLOAK_URL_AUTH:https://keycloak.dev.bolt.acaisoft.io}
-  url.token: ${KEYCLOAK_URL_TOKEN:https://keycloak.dev.bolt.acaisoft.io}
-  url.plugin: ${KEYCLOAK_URL_PLUGIN:https://keycloak.dev.bolt.acaisoft.io}
-  client.id: ${KEYCLOAK_CLIENT_ID:camunda-identity-service}
-  client.secret: ${KEYCLOAK_CLIENT_SECRET:c08f343f-3870-4948-9a36-434d8c1ffb75}
-
-# Spring Boot SSO OAuth2 Security
-security:
-  oauth2:
-    client:
-      client-id: ${keycloak.client.id}
-      client-secret: ${keycloak.client.secret}
-      accessTokenUri: ${keycloak.url.token}/auth/realms/yields/protocol/openid-connect/token
-      userAuthorizationUri: ${keycloak.url.auth}/auth/realms/yields/protocol/openid-connect/auth
-      scope: openid profile email
-    resource:
-      userInfoUri: ${keycloak.url.auth}/auth/realms/yields/protocol/openid-connect/userinfo
 
 
-# Camunda Rest API
-rest.security:
-  enabled: true
-  jwk-set-url: ${keycloak.url.token}/auth/realms/yields/protocol/openid-connect/certs
-  required-audience: camunda-rest-api
+#keycloak:
+#  url.auth: ${KEYCLOAK_URL_AUTH:https://bnp.qa.yields.io/y-keycloak}
+#  url.token: ${KEYCLOAK_URL_TOKEN:https://bnp.qa.yields.io/y-keycloak}
+#  url.plugin: ${KEYCLOAK_URL_PLUGIN:https://bnp.qa.yields.io/y-keycloak}
+#  client.id: ${KEYCLOAK_CLIENT_ID:camunda-identity-service}
+#  client.secret: ${KEYCLOAK_CLIENT_SECRET:15fdf9ae-ca24-4e9c-af64-e45d10471acc}
+#
+## Spring Boot SSO OAuth2 Security
+#security:
+#  oauth2:
+#    client:
+#      client-id: ${keycloak.client.id}
+#      client-secret: ${keycloak.client.secret}
+#      accessTokenUri: ${keycloak.url.token}/auth/realms/yields/protocol/openid-connect/token
+#      userAuthorizationUri: ${keycloak.url.auth}/auth/realms/yields/protocol/openid-connect/auth
+#      scope: openid profile email
+#    resource:
+#      userInfoUri: ${keycloak.url.auth}/auth/realms/yields/protocol/openid-connect/userinfo
+#
+#
+## Camunda Rest API
+#rest.security:
+#  enabled: true
+#  jwk-set-url: ${keycloak.url.token}/auth/realms/yields/protocol/openid-connect/certs
+#  required-audience: camunda-rest-api
 
 
 logging:
