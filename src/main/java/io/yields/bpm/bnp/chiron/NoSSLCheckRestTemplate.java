@@ -1,5 +1,6 @@
 package io.yields.bpm.bnp.chiron;
 
+import lombok.experimental.UtilityClass;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
