@@ -1,5 +1,6 @@
 
 yields:
+  setupCampaignDataSet: V12_CAMPAIGN
   mappings:
     France:
       -
@@ -36,27 +37,27 @@ yields:
       -
         processVariable: T_CRITERE_BEL
         dataSet: V12_CRITERE_BEL
-        fileNameTemplate: T_CRITERE_%s_BEL.csv
+        fileNameTemplate: T_CRITERE_201904_BEL.csv
         ifModel:
       -
         processVariable: T_REF_BEL
         dataSet: V12_REF_BEL
-        fileNameTemplate: V12_REF_%s_BEL.csv
+        fileNameTemplate: T_REF_201904_BEL.csv
         ifModel:
       -
         processVariable: T_SCORE_BEL
         dataSet: V12_SCORE_BEL
-        fileNameTemplate: T_SCORE_%s_BEL.csv
+        fileNameTemplate: T_SCORE_201904_BEL.csv
         ifModel:
       -
         processVariable: T_SCORE_VAR_BEL
         dataSet: V12_SCORE_VAR_BEL
-        fileNameTemplate: T_SCORE_VAR_%s_BEL.csv
+        fileNameTemplate: T_SCORE_VAR_201904_BEL.csv
         ifModel:
       -
         processVariable: T_MONITORING_BEL
         dataSet: V12_MONITORING_BELA0014V00
-        fileNameTemplate: T_MONITORING_%s_BELA0014V00.csv
+        fileNameTemplate: T_MONITORING_201904_BELA0014V00.csv
         ifModel: BELA0014V00
   dataChecks:
     France:

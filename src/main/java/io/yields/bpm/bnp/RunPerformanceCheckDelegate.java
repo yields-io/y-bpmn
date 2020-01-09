@@ -43,7 +43,6 @@ public class RunPerformanceCheckDelegate implements JavaDelegate {
         }
 
         execution.setVariable(ProcessVariables.performanceCheckSuccess, success);
-
         log.info("RunPerformanceCheck success: {}", success);
     }
 

@@ -40,8 +40,7 @@ public class LocalTeamStart implements JavaDelegate {
                     ",",
                     fileMappings.stream()
                         .filter(
-                                fileMapping -> selectedModelNames.isEmpty()
-                                || StringUtils.isBlank(fileMapping.getIfModel())
+                                fileMapping -> StringUtils.isBlank(fileMapping.getIfModel())
                                 || selectedModelNames.contains(fileMapping.getIfModel())
                         )
                         .map(FileMapping::getProcessVariable)

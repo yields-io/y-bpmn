@@ -4,17 +4,17 @@ import io.yields.bpm.bnp.chiron.ChironApi;
 import io.yields.bpm.bnp.chiron.DatasetDTO;
 import io.yields.bpm.bnp.config.FileMapping;
 import io.yields.bpm.bnp.config.YieldsProperties;
+import io.yields.bpm.bnp.util.DataSetUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.variable.value.FileValue;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +25,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UploadRequiredDataDelegate implements JavaDelegate {
 
-    private static DateTimeFormatter DT_FORMATTER = DateTimeFormatter.ofPattern("yyyy_MM_ddHHmmssS");
     private final YieldsProperties yieldsProperties;
 
     public void execute(DelegateExecution execution) {
@@ -40,8 +39,10 @@ public class UploadRequiredDataDelegate implements JavaDelegate {
             List<FileMapping> fileMappings = yieldsProperties.getMappings().get(localTeam);
 
             for (FileMapping fileMapping : fileMappings) {
-                uploadFile(datasetIds, datasets, fileMapping.getDataSet(),
-                        execution.getVariable(fileMapping.getProcessVariable()), fileMapping.getFileNameTemplate()
+                uploadFile(execution,
+                        datasetIds, datasets,
+                        fileMapping.getDataSet(),
+                        fileMapping.getProcessVariable()
                 );
             }
 
@@ -57,30 +58,26 @@ public class UploadRequiredDataDelegate implements JavaDelegate {
         execution.setVariable(ProcessVariables.uploadSuccess, success);
     }
 
-    private void uploadFile(Map<String, String> datasetIds,
+    private void uploadFile(DelegateExecution execution,
+                            Map<String, String> datasetIds,
                             List<DatasetDTO> datasets,
                             String dataSetName,
-                            Object fileVariable,
-                            String fileNameTemplate) throws IOException {
-        if (fileVariable != null && fileVariable instanceof ByteArrayInputStream) {
-            ByteArrayInputStream fileData = (ByteArrayInputStream) fileVariable;
-            String fileName = String.format(fileNameTemplate, DT_FORMATTER.format(LocalDateTime.now()));
+                            String fileVariable) throws IOException {
+
+        FileValue fileValue = execution.getVariableTyped(fileVariable);
+        ByteArrayInputStream fileData = (ByteArrayInputStream) execution.getVariable(fileVariable);
+
+        if (fileData != null) {
             byte[] fileBytes = IOUtils.toByteArray(fileData);
             if (fileBytes.length > 0) {
 //        throw new RuntimeException("No file or empty file uploaded");
-                ChironApi.uploadRequiredData(fileBytes, fileName);
-                log.info("Uploaded file {} to dataset {}", fileName, dataSetName);
-                datasetIds.put(fileName, findDatasetId(datasets, dataSetName));
+
+                ChironApi.uploadFile(fileBytes, fileValue.getFilename());
+                log.info("Uploaded file {} to dataset {}", fileValue.getFilename(), dataSetName);
+                datasetIds.put(fileValue.getFilename(), DataSetUtil.findDatasetId(datasets, dataSetName));
             }
         }
     }
 
-    private String findDatasetId(List<DatasetDTO> datasets, String datasetName) {
-        return datasets.stream()
-                .filter(dataset -> dataset.getName().equals(datasetName))
-                .map(dataset -> dataset.getId())
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Could not find dataset: " + datasetName));
-    }
 
 }
