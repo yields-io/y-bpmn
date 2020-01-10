@@ -11,8 +11,8 @@ public interface ProcessVariables {
 
     String dataCheckSuccess = "dataCheckSuccessful"; // true/false
 
-    String dataCheckReportUrl = "dataCheckReportUrl";
+    String dataCheckReport = "dataCheckReport";
 
     String performanceCheckSuccess = "performanceCheckSuccessful";
-    String performanceCheckReportUrl = "performanceCheckReportUrl";
+    String performanceCheckReport = "performanceCheckReport";
 }

@@ -17,6 +17,6 @@ public class YieldsProperties {
     private Map<String, List<FileMapping>> mappings;
     private Map<String, CheckProps> dataChecks;
     private Map<String, CheckProps> performanceChecks;
-    private String dataCheckReportUrlTemplate;
-    private String performanceCheckReportUrlTemplate;
+//    private String dataCheckReportUrlTemplate;
+//    private String performanceCheckReportUrlTemplate;
 }

@@ -37,8 +37,8 @@ public class RetrieveAllModelsDelegate implements JavaDelegate {
     List<String> localTeams = new ArrayList<String>();
     localTeams.add("France");
     localTeams.add("Belgium");
-
     execution.setVariable("localTeams", localTeams);
+
     log.info("RetrieveAllModels done");
   }
 
