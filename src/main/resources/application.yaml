@@ -1,3 +1,7 @@
+server:
+  port: 8084
+
+
 #camunda.bpm:
 #  admin-user:
 #    id: demo
@@ -64,3 +68,4 @@ logging:
     ROOT: INFO
     io.yields: INFO
     org.springframework.security: DEBUG
+

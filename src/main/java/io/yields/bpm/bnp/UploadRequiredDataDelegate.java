@@ -50,7 +50,7 @@ public class UploadRequiredDataDelegate implements JavaDelegate {
             success = true; //no exception
         } catch (Exception e) {
             success = false;
-            execution.setVariable(ProcessVariables.processError, e.getMessage());
+            execution.setVariableLocal(ProcessVariables.processError, e.getMessage());
             log.error("Upload error", e);
         }
 

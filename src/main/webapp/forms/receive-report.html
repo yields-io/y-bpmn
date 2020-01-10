@@ -2973,17 +2973,19 @@
 <form name="receiveReport">
     <p>
         <script cam-script type="text/form-script">
-      camForm.on('form-loaded', function() {
-        // tell the form SDK to fetch the variable named 'invoiceData'
-        camForm.variableManager.fetchVariable('performanceCheckReport');
-      });
-      camForm.on('variables-fetched', function() {
-        // work with the variable (bind it to the current AngularJS $scope)
-        $scope.performanceCheckReport = camForm.variableManager.variableValue('performanceCheckReport');
-      });
-</script>
+          camForm.on('form-loaded', function() {
+            camForm.variableManager.fetchVariable('performanceCheckReport');
+          });
+          camForm.on('variables-fetched', function() {
+            $scope.performanceCheckReport = camForm.variableManager.variableValue('performanceCheckReport');
+          });
+        </script>
 
         <h4>Performance check report</h4>
-        <div ng-bind-html="performanceCheckReport.html"></div>
+        <div
+            style="width: 100%; height: 400px; overflow-y: scroll;"
+            ng-bind-html="performanceCheckReport.html"
+        >
+        </div>
     </p>
 </form>

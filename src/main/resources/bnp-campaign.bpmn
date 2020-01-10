@@ -76,7 +76,7 @@
         <bpmn:incoming>SequenceFlow_ingestDataCheckOk</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_runDataCheck</bpmn:outgoing>
       </bpmn:serviceTask>
-      <bpmn:serviceTask id="Task_0n2kfij" name="Ingest required data" camunda:class="io.yields.bpm.bnp.IngestRequiredDataDelegate">
+      <bpmn:serviceTask id="Task_0n2kfij" name="Ingest required data" camunda:delegateExpression="${ingestRequiredDataDelegate}">
         <bpmn:incoming>SequenceFlow_uploadSuccessful</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_1io6n10</bpmn:outgoing>
       </bpmn:serviceTask>

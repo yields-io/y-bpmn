@@ -33,7 +33,7 @@ public class SessionsCheck {
             );
         } catch (Exception e) {
             log.error("Session error", e);
-            execution.setVariable(ProcessVariables.processError, e.getMessage());
+            execution.setVariableLocal(ProcessVariables.processError, e.getMessage());
         }
 
         return success;

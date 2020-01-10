@@ -1,21 +1,14 @@
 package io.yields.bpm.bnp;
 
-import io.yields.bpm.bnp.chiron.ChironApi;
-import io.yields.bpm.bnp.chiron.ReportDTO;
-import io.yields.bpm.bnp.chiron.StageDTO;
-import io.yields.bpm.bnp.chiron.StartSessionResponse;
 import io.yields.bpm.bnp.config.CheckProps;
 import io.yields.bpm.bnp.config.YieldsProperties;
-import io.yields.bpm.bnp.util.SessionsCheck;
+import io.yields.bpm.bnp.util.SessionRunner;
+import io.yields.bpm.bnp.util.SessionRunner.SessionRunResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
-import org.camunda.bpm.engine.variable.Variables;
 import org.springframework.stereotype.Component;
-
-import static org.camunda.bpm.engine.variable.Variables.objectValue;
 
 
 @Slf4j
@@ -33,22 +26,16 @@ public class RunDataCheckDelegate implements JavaDelegate {
             String localTeam = (String) execution.getVariable("localTeam");
             CheckProps dataCheckProps = yieldsProperties.getDataChecks().get(localTeam);
             log.debug("DatacheckProps: {}", dataCheckProps);
-            StageDTO stage = ChironApi.getStage(dataCheckProps.getStageType(), dataCheckProps.getDataSet());
-            StartSessionResponse startSessionResponse = ChironApi.startSession(stage.getId());
 
-            success = SessionsCheck.allSessionsCompletedWithSuccess(execution, startSessionResponse.getIds());
-            String sessionReport = ChironApi.getSessionReport(startSessionResponse.getIds().get(0));
-            execution.setVariableLocal(ProcessVariables.dataCheckReport,
-                    objectValue(new ReportDTO(StringUtils.substringBetween(sessionReport, "<body>", "</body>")))
-                            .serializationDataFormat(Variables.SerializationDataFormats.JSON)
-                            .create()
-            );
+            SessionRunResult sessionResult = SessionRunner.runSessionAndGetReport(dataCheckProps, execution);
+            success = sessionResult.isSuccess();
+            execution.setVariableLocal(ProcessVariables.dataCheckReport, sessionResult.getReport());
+            execution.setVariableLocal(ProcessVariables.dataCheckReport + "_" + localTeam , sessionResult.getReport());
         } catch (Exception e) {
-            execution.setVariable(ProcessVariables.processError, e.getMessage());
+            execution.setVariableLocal(ProcessVariables.processError, e.getMessage());
         }
 
         execution.setVariable(ProcessVariables.dataCheckSuccess, success);
-
         log.info("RunDataCheck success? {}", success);
     }
 
