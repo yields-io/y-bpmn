@@ -1,19 +1,14 @@
-# camunda BPM - Getting Started with camunda BPM and Spring Boot
+# Yields BPM 
 
-This Repository contains the example Spring Boot application for the guide at [camunda.org](http://camunda.org/get-started/spring-boot.html).
-
-Every step of the tutorial was tagged in this repository. You can jump to the final state of each step
-by the following command:
+Build docker image:
 
 ```
-git checkout -f Step-X
+docker build -t yields-bpmn .
 ```
 
-If you want to follow the tutorial along please clone this repository and checkout the `Start` tag.
 
+Run:
 ```
-git clone https://github.com/camunda/camunda-get-started-spring-boot.git
-git checkout -f Start
+docker run -p 8084:8084 yields-bpmn
 ```
 
-License: The source files in this repository are made available under the [Apache License Version 2.0](./LICENSE).
