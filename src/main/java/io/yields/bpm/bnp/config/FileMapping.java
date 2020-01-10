@@ -14,7 +14,6 @@ public class FileMapping {
 
     private String processVariable;
     private String dataSet;
-    private String fileNameTemplate;
     private String ifModel;
 
 }
