@@ -7,7 +7,6 @@ import io.yields.bpm.bnp.chiron.StartSessionResponse;
 import io.yields.bpm.bnp.config.CheckProps;
 import lombok.Value;
 import lombok.experimental.UtilityClass;
-import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.variable.Variables;
 import org.camunda.bpm.engine.variable.value.ObjectValue;
@@ -30,7 +29,7 @@ public class SessionRunner {
 
         boolean success = SessionsCheck.allSessionsCompletedWithSuccess(execution, startSessionResponse.getIds());
         String sessionReport = ChironApi.getSessionReport(startSessionResponse.getIds().get(0));
-        ObjectValue reportVar = objectValue(new ReportDTO(StringUtils.substringBetween(sessionReport, "<body>", "</body>")))
+        ObjectValue reportVar = objectValue(new ReportDTO(sessionReport))
                 .serializationDataFormat(Variables.SerializationDataFormats.JSON)
                 .create();
 
