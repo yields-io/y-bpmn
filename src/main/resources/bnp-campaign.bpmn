@@ -23,7 +23,7 @@
         <bpmn:flowNodeRef>Task_0gic3zm</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
-    <bpmn:startEvent id="StartEvent_19kxdrf" camunda:formKey="embedded:app:forms/start-campaign.html">
+    <bpmn:startEvent id="StartEvent_19kxdrf" camunda:formKey="embedded:app:forms/start_campaign.html">
       <bpmn:outgoing>SequenceFlow_0ymv3b4</bpmn:outgoing>
     </bpmn:startEvent>
     <bpmn:serviceTask id="Task_0nhqojy" name="Retrieve all models" camunda:delegateExpression="${retrieveAllModelsDelegate}">
@@ -150,7 +150,7 @@
         <bpmn:outgoing>SequenceFlow_1nbo06y</bpmn:outgoing>
       </bpmn:serviceTask>
       <bpmn:sequenceFlow id="SequenceFlow_1nbo06y" sourceRef="ServiceTask_start" targetRef="Task_00hwi28" />
-      <bpmn:userTask id="Task_1h71rwv" name="Receive report" camunda:formKey="embedded:app:forms/receive-report.html">
+      <bpmn:userTask id="Task_1h71rwv" name="Receive report" camunda:formKey="embedded:app:forms/receive-report.html" camunda:candidateGroups="${localTeam}">
         <bpmn:incoming>SequenceFlow_runPerformanceCheck</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_0jez3d4</bpmn:outgoing>
       </bpmn:userTask>

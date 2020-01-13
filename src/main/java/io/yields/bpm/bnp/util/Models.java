@@ -17,7 +17,7 @@ public class Models {
     public static final String FRA_MODEL_PREFIX = "FRA";
     public static final String BEL_MODEL_PREFIX = "BEL";
 
-    public static final List<String> SUPPORTED_MODEL_PREFIXES = List.of(FRA_MODEL_PREFIX, BEL_MODEL_PREFIX);
+//    public static final List<String> SUPPORTED_MODEL_PREFIXES = Lists.newArrayList(FRA_MODEL_PREFIX, BEL_MODEL_PREFIX);
 
 
     public List<String> getSelectedModels(DelegateExecution execution) {
