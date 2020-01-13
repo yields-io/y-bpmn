@@ -1,4 +1,9 @@
-# Yields BPM 
+# Yields BPMN
+
+Build jar:
+```
+mvn clean install
+```
 
 Build docker image:
 
