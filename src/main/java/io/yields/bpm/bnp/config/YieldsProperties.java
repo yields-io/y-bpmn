@@ -17,7 +17,7 @@ public class YieldsProperties {
     private String setupCampaignDataSet;
     private Map<String, List<FileMapping>> mappings;
     private Map<String, CheckProps> dataChecks;
-    private Map<String, CheckProps> performanceChecks;
+    private Map<String, List<CheckProps>> performanceChecks;
 
 
     public List<FileMapping> getLocalTeamMappings(DelegateExecution execution) {

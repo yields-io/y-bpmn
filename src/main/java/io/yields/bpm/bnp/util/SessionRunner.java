@@ -7,6 +7,7 @@ import io.yields.bpm.bnp.chiron.StartSessionResponse;
 import io.yields.bpm.bnp.config.CheckProps;
 import lombok.Value;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.variable.Variables;
 import org.camunda.bpm.engine.variable.value.ObjectValue;
@@ -15,6 +16,7 @@ import static org.camunda.bpm.engine.variable.Variables.objectValue;
 
 
 @UtilityClass
+@Slf4j
 public class SessionRunner {
 
     @Value
@@ -24,6 +26,7 @@ public class SessionRunner {
     }
 
     public SessionRunResult runSessionAndGetReport(CheckProps checkProps, DelegateExecution execution) {
+        log.info("Starting session for props: {}", checkProps);
         StageDTO stage = ChironApi.getStage(checkProps.getStageType(), checkProps.getDataSet());
         StartSessionResponse startSessionResponse = ChironApi.startSession(stage.getId());
 

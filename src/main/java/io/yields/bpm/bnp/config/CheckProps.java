@@ -15,4 +15,5 @@ class CheckProps {
 
     private String stageType;
     private String dataSet;
+    private String ifModel;
 }

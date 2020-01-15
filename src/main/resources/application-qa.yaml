@@ -57,8 +57,16 @@ yields:
       dataSet: T_SCORE_ANALYSIS_BEL
   performanceChecks:
     France:
-      stageType: Analysis
-      dataSet: T_FRAA0014V00_SCORE_ANALYSIS
+      -
+        stageType: Analysis
+        dataSet: T_FRAA0014V00_SCORE_ANALYSIS
+        ifModel: FRAA0014V00
+      -
+        stageType: Analysis
+        dataSet: T_FRAB0001V00_SCORE_ANALYSIS
+        ifModel: FRAB0001V00
     Belgium:
-      stageType: Analysis
-      dataSet: T_BELA0014V00_SCORE_ANALYSIS
+      -
+        stageType: Analysis
+        dataSet: T_BELA0014V00_SCORE_ANALYSIS
+        ifModel:

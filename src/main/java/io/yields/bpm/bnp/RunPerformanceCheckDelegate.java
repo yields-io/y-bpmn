@@ -2,13 +2,18 @@ package io.yields.bpm.bnp;
 
 import io.yields.bpm.bnp.config.CheckProps;
 import io.yields.bpm.bnp.config.YieldsProperties;
+import io.yields.bpm.bnp.util.Models;
 import io.yields.bpm.bnp.util.SessionRunner;
 import io.yields.bpm.bnp.util.SessionRunner.SessionRunResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -20,22 +25,33 @@ public class RunPerformanceCheckDelegate implements JavaDelegate {
 
     public void execute(DelegateExecution execution) {
         log.info("STARTING RunPerformanceCheck STEP");
-        boolean success = false;
+        boolean success = true;
 
         String localTeam = (String) execution.getVariable("localTeam");
-        CheckProps performanceCheckProps = yieldsProperties.getPerformanceChecks().get(localTeam);
-        log.debug("performanceCheckProps: {}", performanceCheckProps);
+        List<String> selectedModelNames = Models.getSelectedModels(execution);
+        List<CheckProps> performanceCheckPropsList = yieldsProperties.getPerformanceChecks().get(localTeam).stream()
+                .filter(
+                    props ->
+                        StringUtils.isBlank(props.getIfModel())
+                        || selectedModelNames.contains(props.getIfModel())
+                )
+                .collect(Collectors.toList());
 
-        try {
-            SessionRunResult sessionResult = SessionRunner.runSessionAndGetReport(performanceCheckProps, execution);
-            success = sessionResult.isSuccess();
+        log.debug("performanceCheckProps: {}", performanceCheckPropsList);
+        for (CheckProps props: performanceCheckPropsList) {
+            if (success) {
+                try {
+                    SessionRunResult sessionResult = SessionRunner.runSessionAndGetReport(props, execution);
+                    success = success && sessionResult.isSuccess();
 
-            execution.setVariableLocal(ProcessVariables.performanceCheckReport, sessionResult.getReport());
-            execution.setVariable(ProcessVariables.performanceCheckReport + "_" + localTeam, sessionResult.getReport());
-        } catch (Exception e) {
-            execution.setVariable(ProcessVariables.processError,
-                    e.getMessage() + String.format("Stage: %s, dataset: %s", performanceCheckProps.getStageType(), performanceCheckProps.getDataSet())
-            );
+                    execution.setVariableLocal(ProcessVariables.performanceCheckReport, sessionResult.getReport());
+                    execution.setVariable(ProcessVariables.performanceCheckReport + "_" + props.getDataSet(), sessionResult.getReport());
+                } catch (Exception e) {
+                    execution.setVariable(ProcessVariables.processError,
+                            e.getMessage() + String.format("Stage: %s, dataset: %s", props.getStageType(), props.getDataSet())
+                    );
+                }
+            }
         }
         execution.setVariable(ProcessVariables.performanceCheckSuccess, success);
         log.info("RunPerformanceCheck success: {}", success);
