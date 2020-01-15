@@ -5,44 +5,47 @@
         <input class="form-control" cam-variable-type="String" cam-variable-name="campaignId" name="campaignId"
                readonly="true"/>
     </div>
-    <div class="form-group">
-        <label for="campaignApproved">Approve all campaigns?</label>
-        <select cam-variable-name="APPROVED"
-                cam-variable-type="Boolean">
-            <option value="true">Yes</option>
-            <option value="false">No</option>
-        </select>
-    </div>
 
     <script cam-script type="text/form-script">
         camForm.on('form-loaded', function() {
-            camForm.variableManager.fetchVariable('performanceCheckReport_France');
-            camForm.variableManager.fetchVariable('performanceCheckReport_Belgium');
+            camForm.variableManager.fetchVariable('performanceCheckReport_T_FRAA0014V00_SCORE_ANALYSIS');
+            camForm.variableManager.fetchVariable('performanceCheckReport_T_FRAB0001V00_SCORE_ANALYSIS');
+            camForm.variableManager.fetchVariable('performanceCheckReport_T_BELA0014V00_SCORE_ANALYSIS');
         });
 
         camForm.on('variables-fetched', function() {
-            $scope.performanceCheckReport_Fra = camForm.variableManager.variableValue('performanceCheckReport_France');
-            $scope.performanceCheckReport_Bel = camForm.variableManager.variableValue('performanceCheckReport_Belgium');
+            $scope.T_FRAA0014V00_SCORE_ANALYSIS = camForm.variableManager.variableValue('performanceCheckReport_T_FRAA0014V00_SCORE_ANALYSIS');
+            $scope.T_FRAB0001V00_SCORE_ANALYSIS = camForm.variableManager.variableValue('performanceCheckReport_T_FRAB0001V00_SCORE_ANALYSIS');
+            $scope.T_BELA0014V00_SCORE_ANALYSIS = camForm.variableManager.variableValue('performanceCheckReport_T_BELA0014V00_SCORE_ANALYSIS');
 
-            if ($scope.performanceCheckReport_Fra) {
-                document.querySelector('#reportFra')
-                    .contentDocument.write($scope.performanceCheckReport_Fra.html)
+            if ($scope.T_FRAA0014V00_SCORE_ANALYSIS) {
+                document.querySelector('#T_FRAA0014V00_SCORE_ANALYSIS')
+                    .contentDocument.write($scope.T_FRAA0014V00_SCORE_ANALYSIS.html)
             }
-            if ($scope.performanceCheckReport_Bel) {
-                document.querySelector('#reportBel')
-                    .contentDocument.write($scope.performanceCheckReport_Bel.html)
+            if ($scope.T_FRAB0001V00_SCORE_ANALYSIS) {
+                document.querySelector('#T_FRAB0001V00_SCORE_ANALYSIS')
+                    .contentDocument.write($scope.T_FRAB0001V00_SCORE_ANALYSIS.html)
+            }
+            if ($scope.T_BELA0014V00_SCORE_ANALYSIS) {
+                document.querySelector('#T_BELA0014V00_SCORE_ANALYSIS')
+                    .contentDocument.write($scope.T_BELA0014V00_SCORE_ANALYSIS.html)
             }
         });
     </script>
 
-    <p ng-show="performanceCheckReport_Fra">
-        <h4>Performance check report France</h4>
-        <iframe id="reportFra" style="width: 100%; height: 700px" scrolling="yes"></iframe>
+    <p ng-show="T_FRAA0014V00_SCORE_ANALYSIS">
+        <h4>Performance check report FRAA0014V00</h4>
+        <iframe id="T_FRAA0014V00_SCORE_ANALYSIS" style="width: 100%; height: 700px" scrolling="yes"></iframe>
     </p>
 
-    <p ng-show="performanceCheckReport_Bel">
-        <h4>Performance check report Belgium</h4>
-        <iframe id="reportBel" style="width: 100%; height: 700px" scrolling="yes"></iframe>
+    <p ng-show="T_FRAB0001V00_SCORE_ANALYSIS">
+        <h4>Performance check report FRAB0001V00</h4>
+        <iframe id="T_FRAB0001V00_SCORE_ANALYSIS" style="width: 100%; height: 700px" scrolling="yes"></iframe>
+    </p>
+
+    <p ng-show="T_BELA0014V00_SCORE_ANALYSIS">
+        <h4>Performance check report BELA0014V00</h4>
+        <iframe id="T_BELA0014V00_SCORE_ANALYSIS" style="width: 100%; height: 700px" scrolling="yes"></iframe>
     </p>
 
 </form>
