@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
+import org.camunda.bpm.engine.ProcessEngines;
+import org.camunda.bpm.engine.impl.identity.Authentication;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.*;
 import org.springframework.util.LinkedMultiValueMap;
@@ -12,6 +14,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -23,11 +26,29 @@ import static io.yields.bpm.bnp.chiron.NoSSLCheckRestTemplate.restTemplate;
 public class ChironApi {
 
     //TODO: make it configurable
-    private static final String BASE_URL = "https://bnp.qa.yields.io/y-api";
+    private static final String BASE_URL = "https://bnp.uat.yields.io/y-api";
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-    // access_token: "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnT2p6TkJLR3ljOVFOZHJNQ2FhVDBMLWFYRDBLeDYwc3JnMFFnWWhtSkhVIn0.eyJqdGkiOiI5M2Y4ZmU0Yi01Y2RlLTRlNzctOTZiMy0yMDFiNzQ3ZmVlNzAiLCJleHAiOjE1Nzg3NTg5NzgsIm5iZiI6MCwiaWF0IjoxNTc4NzQwOTc4LCJpc3MiOiJodHRwczovL2JucC5xYS55aWVsZHMuaW8veS1rZXljbG9hay9yZWFsbXMveWllbGRzIiwiYXVkIjpbInJlZ2lzdHJ5IiwiY2FtdW5kYS1pZGVudGl0eS1zZXJ2aWNlIiwiYWNjb3VudCJdLCJzdWIiOiI1MjhhMjk4Ni05ZDAxLTQ3M2EtOTA5MC0zMjhkMWZmOTk2YWIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJ5LXBvcnRhbCIsIm5vbmNlIjoiZjkzN2ZjNDctMDAyOC00MTgzLTg5MzYtODQ5Yjk3YjZlMDE0IiwiYXV0aF90aW1lIjoxNTc4NzQwOTc1LCJzZXNzaW9uX3N0YXRlIjoiMjllZWJmMmItMzc1MC00ZTBiLWE4NGEtOTI4ODBlY2I0NjY5IiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyIvIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsicmVnaXN0cnkiOnsicm9sZXMiOlsiY2VudHJhbC10ZWFtIl19LCJjYW11bmRhLWlkZW50aXR5LXNlcnZpY2UiOnsicm9sZXMiOlsidW1hX3Byb3RlY3Rpb24iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6Im9wZW5pZCBlbWFpbCBwcm9maWxlIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJuYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSBzdmlndWllIiwibW9kaWZ5X3RpbWVzdGFtcCI6IjIwMTkxMDA0MTU1ODEwWiIsImdyb3VwcyI6WyJjYW11bmRhLWFkbWluIiwiYm5wIl0sInByZWZlcnJlZF91c2VybmFtZSI6InN2aWd1aWUiLCJnaXZlbl9uYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSIsImZhbWlseV9uYW1lIjoic3ZpZ3VpZSJ9.jZUSqvPCqtdPQfl3StzhcPM0-Vqj3DZy6W6A4RAMTqHmYPp3jXq8yCPku1fm5euExXYBgN35ZS5br38Py-DSPVqGcTF90MFtXG8iOY5hG03mmMfZNpTm8twsi__eExUquyKGWDnQGBSyD2lKPJuFEe4dpv6aVcXggGQhrG0vbLvWEKUBGGagq5gOhjoOMxRqRaaNoq479IXI8b8kvbVeKNL4sgHCOTFz2NV2xuEWDZZPE4vEPKqEMwLikdX5uKDNJhmXK_vRUF9KDqaufweUZ-h5QworiNsTYwMOU7Oz0ifjiH4OYdlzq_ssRds4k6TtIw2cWCYt4MJ8GgQKQfW-WA"
-    private static final String token = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnT2p6TkJLR3ljOVFOZHJNQ2FhVDBMLWFYRDBLeDYwc3JnMFFnWWhtSkhVIn0.eyJqdGkiOiJjYTM3YjkwNS04MGEyLTQ2ZGItYjMyMy1mODFiNzdjYjVhMTIiLCJleHAiOjE1ODE1MDAzNTAsIm5iZiI6MCwiaWF0IjoxNTc4OTA4MzUwLCJpc3MiOiJodHRwczovL2JucC5xYS55aWVsZHMuaW8veS1rZXljbG9hay9yZWFsbXMveWllbGRzIiwiYXVkIjpbInJlZ2lzdHJ5IiwiYWNjb3VudCJdLCJzdWIiOiI1MjhhMjk4Ni05ZDAxLTQ3M2EtOTA5MC0zMjhkMWZmOTk2YWIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjYW11bmRhLWlkZW50aXR5LXNlcnZpY2UiLCJhdXRoX3RpbWUiOjAsInNlc3Npb25fc3RhdGUiOiIzYmEyNWIyNC1lMWQ5LTRmNGEtYTE1YS1hYWNhN2UwNmMyOGEiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWdpc3RyeSI6eyJyb2xlcyI6WyJjZW50cmFsLXRlYW0iXX0sImNhbXVuZGEtaWRlbnRpdHktc2VydmljZSI6eyJyb2xlcyI6WyJ1bWFfcHJvdGVjdGlvbiJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgcHJvZmlsZSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibmFtZSI6IlNlYmFzdGllbiBWaWd1aWUgc3ZpZ3VpZSIsInByZWZlcnJlZF91c2VybmFtZSI6InN2aWd1aWUiLCJnaXZlbl9uYW1lIjoiU2ViYXN0aWVuIFZpZ3VpZSIsImZhbWlseV9uYW1lIjoic3ZpZ3VpZSJ9.N6z1iFxRf6zPpjTv6Mb7w6xbMYKPjRjEZRRrqBtz26Ci-cPWwlqQiDkDdfV3g135iNp1ZrYON1zMCDdIRIT9u9cnr0IXbx0umMElcr0PrOrITZtRgQ5P6_UHvUI8LV_65RSmjkIPH5C5WL5j6fQApAqtbrClmAX37l6wscSz56ClumzY8HybTNGxhR_CcmMriafyOjnbBJ4p-SlBcavOaTk10uomXr-6HY_7FsOiViAd4ECSI4jDfi4bZKYbhld_FKRB6mR_BPP7nExoJLpgpJxGQkrljf_z4lnErwDngJdrcoE5whNWuc_kmCXpSyrHGyNbKcN0lPAee7oqnans7A";
+    private static final String token = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJnT2p6TkJLR3ljOVFOZHJNQ2FhVDBMLWFYRDBLeDYwc3JnMFFnWWhtSkhVIn0.eyJqdGkiOiI3YTc0NDkwMS01NTg0LTQ5YjMtYjI3ZS1kZThkMWZhYTg2YTEiLCJleHAiOjE1ODE2ODM2MzksIm5iZiI6MCwiaWF0IjoxNTc5MDkxNjM5LCJpc3MiOiJodHRwczovL2JucC51YXQueWllbGRzLmlvL3kta2V5Y2xvYWsvcmVhbG1zL3lpZWxkcyIsImF1ZCI6WyJyZWdpc3RyeSIsImFjY291bnQiXSwic3ViIjoiNTI4YTI5ODYtOWQwMS00NzNhLTkwOTAtMzI4ZDFmZjk5NmFiIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoiY2FtdW5kYS1pZGVudGl0eS1zZXJ2aWNlIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiMTM4YWU0YTYtNDNkZi00YWI4LTlhMWEtZWEyNjY1ZGEyYTliIiwiYWNyIjoiMSIsInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsicmVnaXN0cnkiOnsicm9sZXMiOlsiY2VudHJhbC10ZWFtIl19LCJjYW11bmRhLWlkZW50aXR5LXNlcnZpY2UiOnsicm9sZXMiOlsidW1hX3Byb3RlY3Rpb24iXX0sImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJTZWJhc3RpZW4gVmlndWllIHN2aWd1aWUiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJzdmlndWllIiwiZ2l2ZW5fbmFtZSI6IlNlYmFzdGllbiBWaWd1aWUiLCJmYW1pbHlfbmFtZSI6InN2aWd1aWUifQ.iWT-3GkrujPV7vdMKvfkSn-QCDfQbmss2jnOcDnvSDDd2Tdf_BfODaH_EizCayZHbaZvL0F4kSykLqLn4MoFfaoUkuKKBoJJcX1UHg1me64Dx7_PY9PreS3lPqZD6Y06JG17_W-RmHW6lkZZn4cftAbvPnQopD1l6l65ohzmE4WHtdFefzbe5JGVu0BfxpKNgw6KzoOZAMtPe1TdoGSOmbqMNNCNGgNNd6tQzgLcO79Rw3fsvEjzX3exSAtoJ-37_pdMU32Y-ygRRZsEKCx5a4KyvKHeED3PQ1K9Hvwcgv8-stex3pJPDbAl2ZL41sOe_gEluN64IBG1j3nsgwHH2g";
+    private Map<String, String> tokens = new HashMap<>();
+    private String lastUserId;
+
+    public void setUserToken(String userId, String accessToken) {
+        lastUserId = userId;
+        tokens.put(userId, accessToken);
+    }
+
+    private String getToken() {
+//        return token;
+        Authentication currentAuthentication = ProcessEngines.getDefaultProcessEngine()
+                .getIdentityService()
+                .getCurrentAuthentication();
+
+        String userId = currentAuthentication == null ? lastUserId : currentAuthentication.getUserId();
+
+        return "Bearer " + tokens.get(userId);
+    }
+
     public List<ModelDTO> getModels() {
         RestTemplate restTemplate = restTemplate();
         HttpEntity<String> entity = new HttpEntity<>(headersWithToken());
@@ -158,7 +179,7 @@ public class ChironApi {
         HttpEntity<String> requestEntity = new HttpEntity<>(headersWithToken());
         RestTemplate restTemplate = restTemplate();
         ResponseEntity<String> strResponse = restTemplate.postForEntity(BASE_URL + String.format("/sessions/?stageId=%s", stageId),
-                    requestEntity, String.class);
+                requestEntity, String.class);
         log.debug("startSession response: {}", strResponse);
 //        if (strResponse.getStatusCode() != HttpStatus.OK) {
 //            throw new RuntimeException("Error calling startSession endpoint: " + strResponse);
@@ -191,7 +212,7 @@ public class ChironApi {
 
     private HttpHeaders headersWithToken() {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", token);
+        headers.set("Authorization", getToken());
         return headers;
     }
 
