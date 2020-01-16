@@ -150,7 +150,7 @@
         <bpmn:outgoing>SequenceFlow_1nbo06y</bpmn:outgoing>
       </bpmn:serviceTask>
       <bpmn:sequenceFlow id="SequenceFlow_1nbo06y" sourceRef="ServiceTask_start" targetRef="Task_00hwi28" />
-      <bpmn:userTask id="Task_1h71rwv" name="Receive report" camunda:formKey="embedded:app:forms/finalize-campaign.html" camunda:candidateGroups="${localTeam}">
+      <bpmn:userTask id="Task_1h71rwv" name="Receive report" camunda:formKey="embedded:app:forms/receive-report.html" camunda:candidateGroups="${localTeam}">
         <bpmn:incoming>SequenceFlow_runPerformanceCheck</bpmn:incoming>
         <bpmn:outgoing>SequenceFlow_0jez3d4</bpmn:outgoing>
       </bpmn:userTask>
