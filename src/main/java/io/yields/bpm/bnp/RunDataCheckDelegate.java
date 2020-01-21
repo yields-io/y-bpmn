@@ -1,5 +1,10 @@
 package io.yields.bpm.bnp;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import io.yields.bpm.bnp.config.CheckProps;
 import io.yields.bpm.bnp.config.YieldsProperties;
 import io.yields.bpm.bnp.util.SessionRunner;
@@ -24,13 +29,19 @@ public class RunDataCheckDelegate implements JavaDelegate {
 
         try {
             String localTeam = (String) execution.getVariable("localTeam");
-            CheckProps dataCheckProps = yieldsProperties.getDataChecks().get(localTeam);
+//            CheckProps dataCheckProps = yieldsProperties.getDataChecks().get(localTeam);
+//            List<CheckProps> dataCheckProps = new ArrayList<>();
+//            yieldsProperties.getDataChecks().entrySet().forEach(entry -> dataCheckProps.add(entry.getValue()));
+            List<CheckProps> dataCheckProps = new ArrayList<>();
+            yieldsProperties.getDataChecks().values().forEach(dataCheck -> dataCheckProps.add(dataCheck));
             log.debug("DatacheckProps: {}", dataCheckProps);
 
-            SessionRunResult sessionResult = SessionRunner.runSessionAndGetReport(dataCheckProps, execution);
-            success = sessionResult.isSuccess();
-            execution.setVariableLocal(ProcessVariables.dataCheckReport, sessionResult.getReport());
-            execution.setVariableLocal(ProcessVariables.dataCheckReport + "_" + localTeam , sessionResult.getReport());
+            SessionRunResult sessionResult;
+            for (CheckProps checkProps : dataCheckProps) {
+                sessionResult = SessionRunner.runSessionAndGetReport(checkProps, execution);
+                success = sessionResult.isSuccess();
+                execution.setVariableLocal(ProcessVariables.dataCheckReport, sessionResult.getReport());
+            }
         } catch (Exception e) {
             execution.setVariableLocal(ProcessVariables.processError, e.getMessage());
         }

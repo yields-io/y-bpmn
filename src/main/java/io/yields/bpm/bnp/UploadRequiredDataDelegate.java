@@ -15,9 +15,11 @@ import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Slf4j
@@ -36,7 +38,10 @@ public class UploadRequiredDataDelegate implements JavaDelegate {
 
         try {
             String localTeam = (String) execution.getVariable("localTeam");
-            List<FileMapping> fileMappings = yieldsProperties.getMappings().get(localTeam);
+//            List<FileMapping> fileMappings = yieldsProperties.getMappings().get(localTeam);
+
+            List<FileMapping> fileMappings = yieldsProperties.getMappings().values().stream()
+                    .flatMap(Collection::stream).collect(Collectors.toList());
 
             for (FileMapping fileMapping : fileMappings) {
                 uploadFile(execution,

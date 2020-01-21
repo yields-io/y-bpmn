@@ -10,6 +10,8 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,8 +27,11 @@ public class LocalTeamStart implements JavaDelegate {
     public void execute(DelegateExecution execution) {
 
         String localTeam = (String) execution.getVariable("localTeam");
-        List<FileMapping> fileMappings = yieldsProperties.getMappings().get(localTeam);
-        List<String> selectedModelNames = Models.getSelectedModels(execution);
+
+//        List<FileMapping> fileMappings = yieldsProperties.getMappings().get(localTeam);
+        List<FileMapping> fileMappings = yieldsProperties.getMappings().values().stream()
+                .flatMap(Collection::stream).collect(Collectors.toList());
+        String selectedModelName = Models.getSelectedModels(execution);
 
         execution.setVariableLocal("fileMappings",
             String.join(
@@ -34,7 +39,7 @@ public class LocalTeamStart implements JavaDelegate {
                     fileMappings.stream()
                         .filter(
                                 fileMapping -> StringUtils.isBlank(fileMapping.getIfModel())
-                                || selectedModelNames.contains(fileMapping.getIfModel())
+                                || selectedModelName.equals(fileMapping.getIfModel())
                         )
                         .map(FileMapping::getProcessVariable)
                         .collect(Collectors.toList())

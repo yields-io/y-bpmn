@@ -12,6 +12,7 @@ import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.springframework.stereotype.Component;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,14 +29,21 @@ public class RunPerformanceCheckDelegate implements JavaDelegate {
         boolean success = true;
 
         String localTeam = (String) execution.getVariable("localTeam");
-        List<String> selectedModelNames = Models.getSelectedModels(execution);
-        List<CheckProps> performanceCheckPropsList = yieldsProperties.getPerformanceChecks().get(localTeam).stream()
-                .filter(
-                    props ->
+        String selectedModelNames = Models.getSelectedModels(execution);
+
+        List<CheckProps> performanceCheckPropsList = yieldsProperties.getPerformanceChecks().values().stream()
+                .flatMap(Collection::stream).collect(Collectors.toList()).stream()
+                .filter(props ->
                         StringUtils.isBlank(props.getIfModel())
-                        || selectedModelNames.contains(props.getIfModel())
-                )
-                .collect(Collectors.toList());
+                                || selectedModelNames.equals(props.getIfModel())).collect(Collectors.toList());
+
+//        List<CheckProps> performanceCheckPropsList = yieldsProperties.getPerformanceChecks().get(localTeam).stream()
+//                .filter(
+//                    props ->
+//                        StringUtils.isBlank(props.getIfModel())
+//                        || selectedModelNames.equals(props.getIfModel())
+//                )
+//                .collect(Collectors.toList());
 
         log.debug("performanceCheckProps: {}", performanceCheckPropsList);
         for (CheckProps props: performanceCheckPropsList) {
