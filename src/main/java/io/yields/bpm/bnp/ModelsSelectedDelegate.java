@@ -49,5 +49,7 @@ public class ModelsSelectedDelegate implements JavaDelegate {
                                 .collect(Collectors.toList())
                 )
         );
+
+        execution.setVariableLocal("localTeam", "Belgium");
     }
 }
