@@ -8,47 +8,23 @@
 
     <script cam-script type="text/form-script">
         camForm.on('form-loaded', function() {
-            camForm.variableManager.fetchVariable('localTeam');
-            camForm.variableManager.fetchVariable('performanceCheckReport_T_FRAA0014V00_SCORE_ANALYSIS');
-            camForm.variableManager.fetchVariable('performanceCheckReport_T_FRAB0001V00_SCORE_ANALYSIS');
-            camForm.variableManager.fetchVariable('performanceCheckReport_T_BELA0014V00_SCORE_ANALYSIS');
+            camForm.variableManager.fetchVariable('performanceCheckReport_demo_validation');
         });
 
         camForm.on('variables-fetched', function() {
-            $scope.localTeam = camForm.variableManager.variableValue('localTeam');
-            $scope.T_FRAA0014V00_SCORE_ANALYSIS = camForm.variableManager.variableValue('performanceCheckReport_T_FRAA0014V00_SCORE_ANALYSIS');
-            $scope.T_FRAB0001V00_SCORE_ANALYSIS = camForm.variableManager.variableValue('performanceCheckReport_T_FRAB0001V00_SCORE_ANALYSIS');
-            $scope.T_BELA0014V00_SCORE_ANALYSIS = camForm.variableManager.variableValue('performanceCheckReport_T_BELA0014V00_SCORE_ANALYSIS');
+            $scope.demo_validation = camForm.variableManager.variableValue('performanceCheckReport_demo_validation');
 
-            if ($scope.T_FRAA0014V00_SCORE_ANALYSIS) {
-                document.querySelector('#T_FRAA0014V00_SCORE_ANALYSIS')
-                    .contentDocument.write($scope.T_FRAA0014V00_SCORE_ANALYSIS.html)
-            }
-            if ($scope.T_FRAB0001V00_SCORE_ANALYSIS) {
-                document.querySelector('#T_FRAB0001V00_SCORE_ANALYSIS')
-                    .contentDocument.write($scope.T_FRAB0001V00_SCORE_ANALYSIS.html)
-            }
-            if ($scope.T_BELA0014V00_SCORE_ANALYSIS) {
-                document.querySelector('#T_BELA0014V00_SCORE_ANALYSIS')
-                    .contentDocument.write($scope.T_BELA0014V00_SCORE_ANALYSIS.html)
+            if ($scope.demo_validation) {
+                document.querySelector('#demo_validation')
+                    .contentDocument.write($scope.demo_validation.html)
             }
         });
 
     </script>
 
-    <div ng-show="localTeam === 'France' && T_FRAA0014V00_SCORE_ANALYSIS">
-        <h4>Performance check report for FRAA0014V00:</h4>
-        <iframe id="T_FRAA0014V00_SCORE_ANALYSIS" style="width: 100%; height: 700px" scrolling="yes"></iframe>
-    </div>
-
-    <div ng-show="localTeam === 'France' && T_FRAB0001V00_SCORE_ANALYSIS">
-        <h4>Performance check report for FRAB0001V00:</h4>
-        <iframe id="T_FRAB0001V00_SCORE_ANALYSIS" style="width: 100%; height: 700px" scrolling="yes"></iframe>
-    </div>
-
-    <div ng-show="localTeam === 'Belgium' && T_BELA0014V00_SCORE_ANALYSIS">
-        <h4>Performance check report for BELA0014V00:</h4>
-        <iframe id="T_BELA0014V00_SCORE_ANALYSIS" style="width: 100%; height: 700px" scrolling="yes"></iframe>
+    <div>
+        <h4>Performance check report:</h4>
+        <iframe id="demo_validation" style="width: 100%; height: 700px" scrolling="yes"></iframe>
     </div>
 
 </form>

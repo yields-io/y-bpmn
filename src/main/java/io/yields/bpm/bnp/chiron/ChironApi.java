@@ -29,7 +29,7 @@ public class ChironApi {
     private static final String BASE_URL = "https://demo.qa.yields.io/y-api";
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-        private static final String token = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJiemxxOGJHUkpiUEhYREdHelZFbWZBZDRJRkUwMnVCc1YtazlaaUJOWXVNIn0.eyJqdGkiOiIyYjE0NTljYy02ZTIyLTQ4NDctYjI1Yi04NWNjNzNkNWY1YTUiLCJleHAiOjE1Nzk4MTY1OTQsIm5iZiI6MCwiaWF0IjoxNTc5NzgwNjAwLCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA5MC95LWtleWNsb2FrL3JlYWxtcy95aWVsZHMiLCJhdWQiOlsicmVnaXN0cnkiLCJhY2NvdW50Il0sInN1YiI6ImYyMTU5YjMwLWJiNjEtNDViMy05NTA3LTg0NWRmYTI5MzFjZCIsInR5cCI6IkJlYXJlciIsImF6cCI6InktcG9ydGFsIiwibm9uY2UiOiI5YWY2MGE1Mi0xOWYwLTQzM2QtYTdiZi0yZGUwMzNjNWVmYmYiLCJhdXRoX3RpbWUiOjE1Nzk3ODA1OTQsInNlc3Npb25fc3RhdGUiOiIyNGYyYTdlMy0yNmIxLTRmNjUtODNkNS0yYzM4YmU2Njg3MDMiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWdpc3RyeSI6eyJyb2xlcyI6WyJyZWdpc3RyeS1hZG1pbiJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJZaWVsZHMgVXNlciBZaWVsZHMiLCJtb2RpZnlfdGltZXN0YW1wIjoiMjAyMDAxMjExNjQ4NDdaIiwiZ3JvdXBzIjpbImNhbXVuZGEtYWRtaW4iXSwicHJlZmVycmVkX3VzZXJuYW1lIjoieWllbGRzIiwiZ2l2ZW5fbmFtZSI6IllpZWxkcyBVc2VyIiwiZmFtaWx5X25hbWUiOiJZaWVsZHMifQ.tc7jcSFbEM7FGr3mYb9mVmY2McBmqsj5CxyrghSQIW3E1axMTkiG04xHnGZQY5K2QOz4ao8jVdB-l02nrhnqPY_9C-qVgivR_MZCplfkJswXAVjpg9vBatscYskfqid2_aUMZzA6yazypKwOU6yBAQJqb5NN7jzmtnnfsyjINdFgGAYgnw3UDt-W-4mvc0X5XHb63UwuL4GU1ADVy_9cUwMB-xSoLy0KkZUbJLuKI0agS6719VaCWkk_tQKT7M9r5yj6N5nHVg-dKUNcnA_Lr53P6lMdKc7Wp8Yo0Vk02ht_0iCW9AAoNXdThAg-5KyRYfNb4HEh8CigFWpabxhagA";
+    //        private static final String token = "Bearer eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJiemxxOGJHUkpiUEhYREdHelZFbWZBZDRJRkUwMnVCc1YtazlaaUJOWXVNIn0.eyJqdGkiOiIyYjE0NTljYy02ZTIyLTQ4NDctYjI1Yi04NWNjNzNkNWY1YTUiLCJleHAiOjE1Nzk4MTY1OTQsIm5iZiI6MCwiaWF0IjoxNTc5NzgwNjAwLCJpc3MiOiJodHRwOi8va2V5Y2xvYWs6ODA5MC95LWtleWNsb2FrL3JlYWxtcy95aWVsZHMiLCJhdWQiOlsicmVnaXN0cnkiLCJhY2NvdW50Il0sInN1YiI6ImYyMTU5YjMwLWJiNjEtNDViMy05NTA3LTg0NWRmYTI5MzFjZCIsInR5cCI6IkJlYXJlciIsImF6cCI6InktcG9ydGFsIiwibm9uY2UiOiI5YWY2MGE1Mi0xOWYwLTQzM2QtYTdiZi0yZGUwMzNjNWVmYmYiLCJhdXRoX3RpbWUiOjE1Nzk3ODA1OTQsInNlc3Npb25fc3RhdGUiOiIyNGYyYTdlMy0yNmIxLTRmNjUtODNkNS0yYzM4YmU2Njg3MDMiLCJhY3IiOiIxIiwiYWxsb3dlZC1vcmlnaW5zIjpbIi8iXSwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJyZWdpc3RyeSI6eyJyb2xlcyI6WyJyZWdpc3RyeS1hZG1pbiJdfSwiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoib3BlbmlkIGVtYWlsIHByb2ZpbGUiLCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsIm5hbWUiOiJZaWVsZHMgVXNlciBZaWVsZHMiLCJtb2RpZnlfdGltZXN0YW1wIjoiMjAyMDAxMjExNjQ4NDdaIiwiZ3JvdXBzIjpbImNhbXVuZGEtYWRtaW4iXSwicHJlZmVycmVkX3VzZXJuYW1lIjoieWllbGRzIiwiZ2l2ZW5fbmFtZSI6IllpZWxkcyBVc2VyIiwiZmFtaWx5X25hbWUiOiJZaWVsZHMifQ.tc7jcSFbEM7FGr3mYb9mVmY2McBmqsj5CxyrghSQIW3E1axMTkiG04xHnGZQY5K2QOz4ao8jVdB-l02nrhnqPY_9C-qVgivR_MZCplfkJswXAVjpg9vBatscYskfqid2_aUMZzA6yazypKwOU6yBAQJqb5NN7jzmtnnfsyjINdFgGAYgnw3UDt-W-4mvc0X5XHb63UwuL4GU1ADVy_9cUwMB-xSoLy0KkZUbJLuKI0agS6719VaCWkk_tQKT7M9r5yj6N5nHVg-dKUNcnA_Lr53P6lMdKc7Wp8Yo0Vk02ht_0iCW9AAoNXdThAg-5KyRYfNb4HEh8CigFWpabxhagA";
     private Map<String, String> tokens = new HashMap<>();
     private String lastUserId;
 
@@ -39,14 +39,14 @@ public class ChironApi {
     }
 
     private String getToken() {
-        return token;
-//        Authentication currentAuthentication = ProcessEngines.getDefaultProcessEngine()
-//                .getIdentityService()
-//                .getCurrentAuthentication();
-//
-//        String userId = currentAuthentication == null ? lastUserId : currentAuthentication.getUserId();
-//
-//        return "Bearer " + tokens.get(userId);
+//        return token;
+        Authentication currentAuthentication = ProcessEngines.getDefaultProcessEngine()
+                .getIdentityService()
+                .getCurrentAuthentication();
+
+        String userId = currentAuthentication == null ? lastUserId : currentAuthentication.getUserId();
+
+        return "Bearer " + tokens.get(userId);
     }
 
     public List<ModelDTO> getModels() {
