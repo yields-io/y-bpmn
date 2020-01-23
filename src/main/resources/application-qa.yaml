@@ -4,32 +4,16 @@ yields:
   mappings:
     Belgium:
       -
-        processVariable: T_CRITERE_BEL
-        dataSet: T_CRITERE_BEL
+        processVariable: demodata
+        dataSet: demodata
         ifModel:
-      -
-        processVariable: T_REF_BEL
-        dataSet: T_REF_BEL
-        ifModel:
-      -
-        processVariable: T_SCORE_BEL
-        dataSet: T_SCORE_BEL
-        ifModel:
-      -
-        processVariable: T_SCORE_VAR_BEL
-        dataSet: T_SCORE_VAR_BEL
-        ifModel:
-      -
-        processVariable: T_MONITORING_BEL
-        dataSet: T_MONITORING_BELA0014V00
-        ifModel: BELA0014V00
   dataChecks:
     Belgium:
       stageType: Derivation
-      dataSet: T_SCORE_ANALYSIS_BEL
+      dataSet: demo_outlier
   performanceChecks:
     Belgium:
       -
         stageType: Analysis
-        dataSet: T_BELA0014V00_SCORE_ANALYSIS
+        dataSet: demo_validation
         ifModel:
