@@ -6,6 +6,16 @@
                readonly="true"/>
     </div>
 
+    <div class="form-group">
+        <label for="checkConfirmed">Approve validation: </label>
+        <select id="checkConfirmed"
+                cam-variable-name="reportConfirmed"
+                cam-variable-type="String">
+            <option value="yes">Yes</option>
+            <option value="no">No</option>
+        </select>
+    </div>
+
     <script cam-script type="text/form-script">
         camForm.on('form-loaded', function() {
             camForm.variableManager.fetchVariable('performanceCheckReport_demo_validation');
