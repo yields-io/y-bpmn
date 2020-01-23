@@ -26,10 +26,10 @@ public class RetrieveAllModelsDelegate implements JavaDelegate {
     log.info("STARTING RetrieveAllModels STEP");
 
     Map<String, String> models = ChironApi.getModels().stream()
-            .filter(model ->
-                    model.getName().toUpperCase().startsWith(FRA_MODEL_PREFIX)
-                    || model.getName().toUpperCase().startsWith(BEL_MODEL_PREFIX)
-            )
+//            .filter(model ->
+//                    model.getName().toUpperCase().startsWith(FRA_MODEL_PREFIX)
+//                    || model.getName().toUpperCase().startsWith(BEL_MODEL_PREFIX)
+//            )
             .collect(Collectors.toMap(ModelDTO::getId, ModelDTO::getName));
 
     execution.setVariable("modelList",

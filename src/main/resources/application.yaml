@@ -2,31 +2,31 @@ server:
   port: 8084
 
 
-#camunda.bpm:
-#  admin-user:
-#    id: demo
-#    password: demo
-#    firstName: Demo
-#  filter:
-#    create: All tasks
+camunda.bpm:
+  admin-user:
+    id: demo
+    password: demo
+    firstName: Demo
+  filter:
+    create: All tasks
 
 # for keycloak uncomment this and comment out admin-user above
 # also uncomment keycloak dependency in the pom.xml
 
-camunda.bpm:
-#  webapp:
-#    index-redirect-enabled: true
-  history-level: audit
-  authorization:
-    enabled: true
-  filter:
-    create: All tasks
+#camunda.bpm:
+##  webapp:
+##    index-redirect-enabled: true
+#  history-level: audit
+#  authorization:
+#    enabled: true
+#  filter:
+#    create: All tasks
 
 plugin.identity.keycloak:
-  keycloakIssuerUrl: https://bnp.uat.yields.io/y-keycloak/realms/yields
-  keycloakAdminUrl: https://bnp.uat.yields.io/y-keycloak/admin/realms/yields
+  keycloakIssuerUrl: https://demo.qa.yields.io/y-keycloak/realms/yields
+  keycloakAdminUrl: https://demo.qa.yields.io/y-keycloak/admin/realms/yields
   clientId: camunda-identity-service
-  clientSecret: 15fdf9ae-ca24-4e9c-af64-e45d10471acc
+  clientSecret: 605552a4-20dd-44ea-b41e-faafcb1b6895
   useEmailAsCamundaUserId: false
   useUsernameAsCamundaUserId: true
   useGroupPathAsCamundaGroupId : true

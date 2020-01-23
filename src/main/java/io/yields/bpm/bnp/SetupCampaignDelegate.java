@@ -26,26 +26,26 @@ public class SetupCampaignDelegate implements JavaDelegate {
     public void execute(DelegateExecution execution) throws Exception {
        log.info("STARTING SetupCampaign");
 
-       String campaingId = (String) execution.getVariable("campaignId");
-       String campaingStart = (String) execution.getVariable("campaignStartDate");
-       String campaingEnd = (String) execution.getVariable("campaignEndDate");
-
-       byte[] fileData = createCampaingFile(campaingId, campaingStart, campaingEnd);
-       String fileName = String.format("T_CAMPAIGN_%s.csv", campaingId);
-       ChironApi.uploadFile(fileData, fileName);
-       String dataSetId = findDataSetId();
-       ChironApi.ingest(new SimpleEntry<>(fileName, dataSetId));
-
-       RetryUtil.checkWithRetry(
-                () -> {
-                    String ingestStatus = ChironApi.getIngestionStatus(fileName, dataSetId);
-                    if (ingestStatus.equals("Error")) {
-                        throw new RuntimeException("Ingest error");
-                    }
-                    return ingestStatus.equals("Done");
-                },
-                String.format("Checking ingest status timeouted for %s", dataSetId)
-        );
+//       String campaingId = (String) execution.getVariable("campaignId");
+//       String campaingStart = (String) execution.getVariable("campaignStartDate");
+//       String campaingEnd = (String) execution.getVariable("campaignEndDate");
+//
+//       byte[] fileData = createCampaingFile(campaingId, campaingStart, campaingEnd);
+//       String fileName = String.format("T_CAMPAIGN_%s.csv", campaingId);
+//       ChironApi.uploadFile(fileData, fileName);
+//       String dataSetId = findDataSetId();
+//       ChironApi.ingest(new SimpleEntry<>(fileName, dataSetId));
+//
+//       RetryUtil.checkWithRetry(
+//                () -> {
+//                    String ingestStatus = ChironApi.getIngestionStatus(fileName, dataSetId);
+//                    if (ingestStatus.equals("Error")) {
+//                        throw new RuntimeException("Ingest error");
+//                    }
+//                    return ingestStatus.equals("Done");
+//                },
+//                String.format("Checking ingest status timeouted for %s", dataSetId)
+//        );
 
         log.info("SetupCampaign DONE");
     }
