@@ -12,8 +12,6 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static io.yields.bpm.bnp.util.Models.BEL_MODEL_PREFIX;
-import static io.yields.bpm.bnp.util.Models.FRA_MODEL_PREFIX;
 import static org.camunda.bpm.engine.variable.Variables.objectValue;
 
 @Slf4j
@@ -26,10 +24,6 @@ public class RetrieveAllModelsDelegate implements JavaDelegate {
     log.info("STARTING RetrieveAllModels STEP");
 
     Map<String, String> models = ChironApi.getModels().stream()
-            .filter(model ->
-                    model.getName().toUpperCase().startsWith(FRA_MODEL_PREFIX)
-                    || model.getName().toUpperCase().startsWith(BEL_MODEL_PREFIX)
-            )
             .collect(Collectors.toMap(ModelDTO::getId, ModelDTO::getName));
 
     execution.setVariable("modelList",

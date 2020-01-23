@@ -29,19 +29,13 @@ public class RunDataCheckDelegate implements JavaDelegate {
 
         try {
             String localTeam = (String) execution.getVariable("localTeam");
-//            CheckProps dataCheckProps = yieldsProperties.getDataChecks().get(localTeam);
-//            List<CheckProps> dataCheckProps = new ArrayList<>();
-//            yieldsProperties.getDataChecks().entrySet().forEach(entry -> dataCheckProps.add(entry.getValue()));
-            List<CheckProps> dataCheckProps = new ArrayList<>();
-            yieldsProperties.getDataChecks().values().forEach(dataCheck -> dataCheckProps.add(dataCheck));
+            CheckProps dataCheckProps = yieldsProperties.getDataChecks().get(localTeam);
             log.debug("DatacheckProps: {}", dataCheckProps);
 
             SessionRunResult sessionResult;
-            for (CheckProps checkProps : dataCheckProps) {
-                sessionResult = SessionRunner.runSessionAndGetReport(checkProps, execution);
-                success = sessionResult.isSuccess();
-                execution.setVariableLocal(ProcessVariables.dataCheckReport, sessionResult.getReport());
-            }
+            sessionResult = SessionRunner.runSessionAndGetReport(dataCheckProps, execution);
+            success = sessionResult.isSuccess();
+            execution.setVariableLocal(ProcessVariables.dataCheckReport, sessionResult.getReport());
         } catch (Exception e) {
             execution.setVariableLocal(ProcessVariables.processError, e.getMessage());
         }

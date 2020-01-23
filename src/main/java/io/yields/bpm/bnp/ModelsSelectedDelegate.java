@@ -17,8 +17,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static io.yields.bpm.bnp.util.Models.BEL_MODEL_PREFIX;
-import static io.yields.bpm.bnp.util.Models.FRA_MODEL_PREFIX;
 
 
 @Component
@@ -31,24 +29,6 @@ public class ModelsSelectedDelegate implements JavaDelegate {
     @Override
     public void execute(DelegateExecution execution) {
         log.info("STARTED ModelsSelectedDelegate");
-
-        List<FileMapping> fileMappings = yieldsProperties.getMappings().values().stream()
-                .flatMap(Collection::stream).collect(Collectors.toList());
-
-        String selectedModelName = Models.getSelectedModels(execution);
-
-        execution.setVariableLocal("fileMappings",
-                String.join(
-                        ",",
-                        fileMappings.stream()
-                                .filter(
-                                        fileMapping -> StringUtils.isBlank(fileMapping.getIfModel())
-                                                || selectedModelName.equals(fileMapping.getIfModel())
-                                )
-                                .map(FileMapping::getProcessVariable)
-                                .collect(Collectors.toList())
-                )
-        );
 
         execution.setVariableLocal("localTeam", "Belgium");
     }

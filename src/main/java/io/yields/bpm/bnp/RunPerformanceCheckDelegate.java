@@ -1,5 +1,7 @@
 package io.yields.bpm.bnp;
 
+import static org.camunda.bpm.engine.variable.Variables.objectValue;
+
 import io.yields.bpm.bnp.config.CheckProps;
 import io.yields.bpm.bnp.config.YieldsProperties;
 import io.yields.bpm.bnp.util.Models;
@@ -8,8 +10,11 @@ import io.yields.bpm.bnp.util.SessionRunner.SessionRunResult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.ProcessEngines;
 import org.camunda.bpm.engine.delegate.DelegateExecution;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
+import org.camunda.bpm.engine.variable.Variables;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -31,19 +36,13 @@ public class RunPerformanceCheckDelegate implements JavaDelegate {
         String localTeam = (String) execution.getVariable("localTeam");
         String selectedModelNames = Models.getSelectedModels(execution);
 
-        List<CheckProps> performanceCheckPropsList = yieldsProperties.getPerformanceChecks().values().stream()
-                .flatMap(Collection::stream).collect(Collectors.toList()).stream()
-                .filter(props ->
+        List<CheckProps> performanceCheckPropsList = yieldsProperties.getPerformanceChecks().get(localTeam).stream()
+                .filter(
+                    props ->
                         StringUtils.isBlank(props.getIfModel())
-                                || selectedModelNames.equals(props.getIfModel())).collect(Collectors.toList());
-
-//        List<CheckProps> performanceCheckPropsList = yieldsProperties.getPerformanceChecks().get(localTeam).stream()
-//                .filter(
-//                    props ->
-//                        StringUtils.isBlank(props.getIfModel())
-//                        || selectedModelNames.equals(props.getIfModel())
-//                )
-//                .collect(Collectors.toList());
+                        || selectedModelNames.equals(props.getIfModel())
+                )
+                .collect(Collectors.toList());
 
         log.debug("performanceCheckProps: {}", performanceCheckPropsList);
         for (CheckProps props: performanceCheckPropsList) {
@@ -63,6 +62,16 @@ public class RunPerformanceCheckDelegate implements JavaDelegate {
         }
         execution.setVariable(ProcessVariables.performanceCheckSuccess, success);
         log.info("RunPerformanceCheck success: {}", success);
+
+        ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
+        List<String> users = processEngine.getIdentityService().createUserQuery().memberOfGroup("camunda-admin").list()
+                .stream().map(user -> user.getId()).collect(Collectors.toList());
+
+        execution.setVariable("userList",
+                objectValue(users)
+                    .serializationDataFormat(Variables.SerializationDataFormats.JSON)
+                    .create());
+
     }
 
 }

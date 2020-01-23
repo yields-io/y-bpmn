@@ -29,8 +29,6 @@ public class LocalTeamStart implements JavaDelegate {
         String localTeam = (String) execution.getVariable("localTeam");
 
         List<FileMapping> fileMappings = yieldsProperties.getMappings().get(localTeam);
-//        List<FileMapping> fileMappings = yieldsProperties.getMappings().values().stream()
-//                .flatMap(Collection::stream).collect(Collectors.toList());
         String selectedModelName = Models.getSelectedModels(execution);
 
         execution.setVariableLocal("fileMappings",
