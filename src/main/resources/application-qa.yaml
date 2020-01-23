@@ -9,7 +9,8 @@ yields:
         ifModel:
   dataChecks:
     Belgium:
-      stageType: Derivation
+#      stageType: Derivation
+      stageType: Training
       dataSet: demo_outlier
   performanceChecks:
     Belgium:

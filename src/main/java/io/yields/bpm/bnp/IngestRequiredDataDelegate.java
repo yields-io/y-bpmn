@@ -28,11 +28,11 @@ public class IngestRequiredDataDelegate implements JavaDelegate {
         boolean success;
 
         try {
-            String localTeam = (String) execution.getVariable("localTeam");
-            String filePrefix = localTeam.substring(0, 3);
+//            String localTeam = (String) execution.getVariable("localTeam");
+//            String filePrefix = localTeam.substring(0, 3);
             // ingest only files belonging to localTeam
             Map<String, String> localTeamDataSetIds = datasetIds.entrySet().stream()
-                    .filter(entry -> entry.getKey().toUpperCase().contains(filePrefix.toUpperCase()))
+//                    .filter(entry -> entry.getKey().toUpperCase().contains(filePrefix.toUpperCase()))
                     .collect(Collectors.toMap(entry -> entry.getKey(), entry -> entry.getValue()));
 
             for (Map.Entry<String, String> ingestFilenameAndId : localTeamDataSetIds.entrySet()) {
