@@ -59,12 +59,12 @@ public class WebappExampleProcessApplication {
     @EventListener
     private void processPostDeploy(PostDeployEvent event) {
         //runtimeService.startProcessInstanceByKey("bnp-campaign");
-        addCentralTeamAuthorizations();
-        addTeamAuthorizations();
+        addManagementGroupAuthorizations();
+        addValidationGroupAuthorizations();
     }
 
-    private void addCentralTeamAuthorizations() {
-        String[] teams = new String[]{"Central"};
+    private void addManagementGroupAuthorizations() {
+        String[] teams = new String[]{"management"};
         AuthDTO[] authorizations = new AuthDTO[]{
                 AuthDTO.builder().resource(Resources.APPLICATION).resourceId("tasklist")
                         .permissions(Arrays.asList(Permissions.ALL)).build(),
@@ -84,11 +84,13 @@ public class WebappExampleProcessApplication {
         }
     }
 
-    private void addTeamAuthorizations() {
-        String[] teams = new String[]{"France", "Belgium"};
+    private void addValidationGroupAuthorizations() {
+        String[] teams = new String[]{"development", "validation"};
         AuthDTO[] authorizations = new AuthDTO[]{
                 AuthDTO.builder().resource(Resources.APPLICATION).resourceId("tasklist")
                         .permissions(Arrays.asList(Permissions.ALL)).build(),
+                AuthDTO.builder().resource(Resources.GROUP).resourceId("*")
+                        .permissions(Arrays.asList(Permissions.READ)).build(),
 //        AuthDTO.builder().resource(Resources.APPLICATION).resourceId("cockpit")
 //            .permissions(Arrays.asList(Permissions.ALL)).build(),
                 AuthDTO.builder().resource(Resources.FILTER).resourceId("*")

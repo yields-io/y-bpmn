@@ -31,17 +31,17 @@ public class KeycloakGroupQuery extends GroupQueryImpl {
         final KeycloakIdentityProviderSession identityProvider = getKeycloakIdentityProvider(commandContext);
         List<Group> result = identityProvider.findGroupByQueryCriteria(this);
         for (Group group: result) {
-            if (group.getName().equals("bnp")) {
-                group.setName("Central");
-                group.setId("Central");
+            if (group.getName().equals("management")) {
+                group.setName("Second Line - Manager");
+                group.setId("management");
             }
             if (group.getName().equals("validation")) {
-                group.setName("France");
-                group.setId("France");
+                group.setName("Second Line - Validator");
+                group.setId("validation");
             }
             if (group.getName().equals("development")) {
-                group.setName("Belgium");
-                group.setId("Belgium");
+                group.setName("First Line");
+                group.setId("development");
             }
         }
         return result;

@@ -64,7 +64,7 @@ public class RunPerformanceCheckDelegate implements JavaDelegate {
         log.info("RunPerformanceCheck success: {}", success);
 
         ProcessEngine processEngine = ProcessEngines.getDefaultProcessEngine();
-        List<String> users = processEngine.getIdentityService().createUserQuery().memberOfGroup("camunda-admin").list()
+        List<String> users = processEngine.getIdentityService().createUserQuery().memberOfGroup("validation").list()
                 .stream().map(user -> user.getId()).collect(Collectors.toList());
 
         execution.setVariable("userList",

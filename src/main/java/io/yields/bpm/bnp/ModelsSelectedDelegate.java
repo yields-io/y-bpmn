@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -30,6 +29,25 @@ public class ModelsSelectedDelegate implements JavaDelegate {
     public void execute(DelegateExecution execution) {
         log.info("STARTED ModelsSelectedDelegate");
 
-        execution.setVariableLocal("localTeam", "Belgium");
+        String localTeam = "Belgium";
+
+        execution.setVariableLocal("localTeam", localTeam);
+
+        List<FileMapping> fileMappings = yieldsProperties.getMappings().get(localTeam);
+        String selectedModelName = Models.getSelectedModels(execution);
+
+        execution.setVariableLocal("fileMappings",
+                String.join(
+                        ",",
+                        fileMappings.stream()
+                                .filter(
+                                        fileMapping -> StringUtils.isBlank(fileMapping.getIfModel())
+                                                || selectedModelName.equals(fileMapping.getIfModel())
+                                )
+                                .map(FileMapping::getProcessVariable)
+                                .collect(Collectors.toList())
+                )
+        );
+
     }
 }
