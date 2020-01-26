@@ -58,9 +58,9 @@ public class WebappExampleProcessApplication {
     // DON'T START THE PROCESS. Process start input parameters are needed
     @EventListener
     private void processPostDeploy(PostDeployEvent event) {
-        //runtimeService.startProcessInstanceByKey("bnp-campaign");
         addManagementGroupAuthorizations();
         addValidationGroupAuthorizations();
+        addDevelopmentGroupAuthorizations();
     }
 
     private void addManagementGroupAuthorizations() {
@@ -85,14 +85,33 @@ public class WebappExampleProcessApplication {
     }
 
     private void addValidationGroupAuthorizations() {
-        String[] teams = new String[]{"development", "validation"};
+        String[] teams = new String[]{"validation"};
         AuthDTO[] authorizations = new AuthDTO[]{
                 AuthDTO.builder().resource(Resources.APPLICATION).resourceId("tasklist")
                         .permissions(Arrays.asList(Permissions.ALL)).build(),
                 AuthDTO.builder().resource(Resources.GROUP).resourceId("*")
                         .permissions(Arrays.asList(Permissions.READ)).build(),
-//        AuthDTO.builder().resource(Resources.APPLICATION).resourceId("cockpit")
-//            .permissions(Arrays.asList(Permissions.ALL)).build(),
+                AuthDTO.builder().resource(Resources.FILTER).resourceId("*")
+                        .permissions(Arrays.asList(Permissions.ALL)).build(),
+        };
+        for (String team : teams) {
+            for (AuthDTO authorization : authorizations) {
+                addAuthorization(team, authorization);
+            }
+        }
+    }
+
+    private void addDevelopmentGroupAuthorizations() {
+        String[] teams = new String[]{"development"};
+        AuthDTO[] authorizations = new AuthDTO[]{
+                AuthDTO.builder().resource(Resources.APPLICATION).resourceId("tasklist")
+                        .permissions(Arrays.asList(Permissions.ALL)).build(),
+                AuthDTO.builder().resource(Resources.GROUP).resourceId("*")
+                        .permissions(Arrays.asList(Permissions.READ)).build(),
+                AuthDTO.builder().resource(Resources.PROCESS_DEFINITION).resourceId("*")
+                        .permissions(Arrays.asList(Permissions.ALL)).build(),
+                AuthDTO.builder().resource(Resources.PROCESS_INSTANCE).resourceId("*")
+                        .permissions(Arrays.asList(Permissions.ALL)).build(),
                 AuthDTO.builder().resource(Resources.FILTER).resourceId("*")
                         .permissions(Arrays.asList(Permissions.ALL)).build(),
         };
