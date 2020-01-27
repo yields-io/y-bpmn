@@ -76,6 +76,8 @@ public class WebappExampleProcessApplication {
                         .permissions(Arrays.asList(Permissions.ALL)).build(),
                 AuthDTO.builder().resource(Resources.FILTER).resourceId("*")
                         .permissions(Arrays.asList(Permissions.ALL)).build(),
+                AuthDTO.builder().resource(Resources.USER).resourceId("*")
+                        .permissions(Arrays.asList(Permissions.READ)).build(),
         };
         for (String team : teams) {
             for (AuthDTO authorization : authorizations) {
@@ -93,6 +95,8 @@ public class WebappExampleProcessApplication {
                         .permissions(Arrays.asList(Permissions.READ)).build(),
                 AuthDTO.builder().resource(Resources.FILTER).resourceId("*")
                         .permissions(Arrays.asList(Permissions.ALL)).build(),
+                AuthDTO.builder().resource(Resources.USER).resourceId("*")
+                        .permissions(Arrays.asList(Permissions.READ)).build(),
         };
         for (String team : teams) {
             for (AuthDTO authorization : authorizations) {
@@ -114,6 +118,8 @@ public class WebappExampleProcessApplication {
                         .permissions(Arrays.asList(Permissions.ALL)).build(),
                 AuthDTO.builder().resource(Resources.FILTER).resourceId("*")
                         .permissions(Arrays.asList(Permissions.ALL)).build(),
+                AuthDTO.builder().resource(Resources.USER).resourceId("*")
+                        .permissions(Arrays.asList(Permissions.READ)).build(),
         };
         for (String team : teams) {
             for (AuthDTO authorization : authorizations) {

@@ -52,7 +52,7 @@ public class RunPerformanceCheckDelegate implements JavaDelegate {
                     success = success && sessionResult.isSuccess();
 
                     execution.setVariableLocal(ProcessVariables.performanceCheckReport, sessionResult.getReport());
-                    execution.setVariable(ProcessVariables.performanceCheckReport + "_" + props.getDataSet(), sessionResult.getReport());
+                    execution.setVariable(ProcessVariables.performanceCheckReport + "_demo_validation", sessionResult.getReport());
                 } catch (Exception e) {
                     execution.setVariable(ProcessVariables.processError,
                             e.getMessage() + String.format("Stage: %s, dataset: %s", props.getStageType(), props.getDataSet())
