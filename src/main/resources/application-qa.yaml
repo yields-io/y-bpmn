@@ -5,16 +5,16 @@ yields:
     Belgium:
       -
         processVariable: demodata
-        dataSet: demodata
+        dataSet: CreditCardDefault
         ifModel:
   dataChecks:
     Belgium:
 #      stageType: Derivation
       stageType: Training
-      dataSet: demo_outlier
+      dataSet: ppnr_outlier
   performanceChecks:
     Belgium:
       -
         stageType: Analysis
-        dataSet: demo_validation
+        dataSet: ppnr_modelvalidation
         ifModel:
