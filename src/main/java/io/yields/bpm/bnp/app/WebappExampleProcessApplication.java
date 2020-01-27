@@ -76,6 +76,8 @@ public class WebappExampleProcessApplication {
                         .permissions(Arrays.asList(Permissions.ALL)).build(),
                 AuthDTO.builder().resource(Resources.FILTER).resourceId("*")
                         .permissions(Arrays.asList(Permissions.ALL)).build(),
+                AuthDTO.builder().resource(Resources.GROUP).resourceId("*")
+                        .permissions(Arrays.asList(Permissions.READ)).build(),
                 AuthDTO.builder().resource(Resources.USER).resourceId("*")
                         .permissions(Arrays.asList(Permissions.READ)).build(),
         };
@@ -91,10 +93,10 @@ public class WebappExampleProcessApplication {
         AuthDTO[] authorizations = new AuthDTO[]{
                 AuthDTO.builder().resource(Resources.APPLICATION).resourceId("tasklist")
                         .permissions(Arrays.asList(Permissions.ALL)).build(),
-                AuthDTO.builder().resource(Resources.GROUP).resourceId("*")
-                        .permissions(Arrays.asList(Permissions.READ)).build(),
                 AuthDTO.builder().resource(Resources.FILTER).resourceId("*")
                         .permissions(Arrays.asList(Permissions.ALL)).build(),
+                AuthDTO.builder().resource(Resources.GROUP).resourceId("*")
+                        .permissions(Arrays.asList(Permissions.READ)).build(),
                 AuthDTO.builder().resource(Resources.USER).resourceId("*")
                         .permissions(Arrays.asList(Permissions.READ)).build(),
         };
@@ -110,14 +112,14 @@ public class WebappExampleProcessApplication {
         AuthDTO[] authorizations = new AuthDTO[]{
                 AuthDTO.builder().resource(Resources.APPLICATION).resourceId("tasklist")
                         .permissions(Arrays.asList(Permissions.ALL)).build(),
-                AuthDTO.builder().resource(Resources.GROUP).resourceId("*")
-                        .permissions(Arrays.asList(Permissions.READ)).build(),
                 AuthDTO.builder().resource(Resources.PROCESS_DEFINITION).resourceId("*")
-                        .permissions(Arrays.asList(Permissions.ALL)).build(),
+                        .permissions(Arrays.asList(Permissions.READ, Permissions.CREATE_INSTANCE)).build(),
                 AuthDTO.builder().resource(Resources.PROCESS_INSTANCE).resourceId("*")
-                        .permissions(Arrays.asList(Permissions.ALL)).build(),
+                        .permissions(Arrays.asList(Permissions.CREATE)).build(),
                 AuthDTO.builder().resource(Resources.FILTER).resourceId("*")
                         .permissions(Arrays.asList(Permissions.ALL)).build(),
+                AuthDTO.builder().resource(Resources.GROUP).resourceId("*")
+                        .permissions(Arrays.asList(Permissions.READ)).build(),
                 AuthDTO.builder().resource(Resources.USER).resourceId("*")
                         .permissions(Arrays.asList(Permissions.READ)).build(),
         };

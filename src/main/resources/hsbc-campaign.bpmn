@@ -106,7 +106,7 @@
     <bpmn:endEvent id="EndEvent_17lwvqj">
       <bpmn:incoming>SequenceFlow_1g3s8c9</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:userTask id="Task_1h71rwv" name="Review report" camunda:formKey="embedded:app:forms/receive-report.html" camunda:assignee="${assignedValidator}" camunda:candidateGroups="validator">
+    <bpmn:userTask id="Task_1h71rwv" name="Review report" camunda:formKey="embedded:app:forms/receive-report.html" camunda:assignee="${assignedValidator}">
       <bpmn:incoming>SequenceFlow_1e105j1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1ikm7or</bpmn:outgoing>
     </bpmn:userTask>
