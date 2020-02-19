@@ -13,6 +13,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import io.yields.bpm.bnp.chiron.ChironApi;
+import lombok.extern.slf4j.Slf4j;
 import org.camunda.bpm.engine.BadUserRequestException;
 import org.camunda.bpm.engine.authorization.Permission;
 import org.camunda.bpm.engine.authorization.Permissions;
@@ -50,6 +51,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+@Slf4j
 public class KeycloakIdentityProviderSession implements ReadOnlyIdentityProvider {
     protected KeycloakConfiguration keycloakConfiguration;
     protected RestTemplate restTemplate;
@@ -163,9 +165,11 @@ public class KeycloakIdentityProviderSession implements ReadOnlyIdentityProvider
         if (KeycloakPluginLogger.INSTANCE.isDebugEnabled()) {
             resultLogger.append("Keycloak user query results: [");
         }
+        log.info(" --- KeycloakPluginLogger.INSTANCE.isDebugEnabled: " + KeycloakPluginLogger.INSTANCE.isDebugEnabled());
 
         try {
             ResponseEntity<String> response = null;
+            log.info(" ---- !StringUtils.isEmpty(query.getId()) " + !StringUtils.isEmpty(query.getId()));
             if (!StringUtils.isEmpty(query.getId())) {
                 response = this.requestUserById(query.getId());
             } else {
@@ -177,6 +181,7 @@ public class KeycloakIdentityProviderSession implements ReadOnlyIdentityProvider
                 throw new IdentityProviderException("Unable to read users from " + this.keycloakConfiguration.getKeycloakAdminUrl() + ": HTTP status code " + response.getStatusCodeValue());
             }
 
+            log.info(" ------ response.toString(): " + response.toString());
             JSONArray searchResult = new JSONArray((String) response.getBody());
 
             for (int i = 0; i < searchResult.length(); ++i) {
@@ -241,6 +246,7 @@ public class KeycloakIdentityProviderSession implements ReadOnlyIdentityProvider
         if (!StringUtils.isEmpty(query.getLastNameLike())) {
             this.addArgument(filter, "lastName", query.getLastNameLike().replaceAll("[%,\\*]", ""));
         }
+        log.info(" ----- filter.toString(): " + filter.toString());
 
         if (filter.length() > 0) {
             filter.insert(0, "?");
@@ -262,6 +268,8 @@ public class KeycloakIdentityProviderSession implements ReadOnlyIdentityProvider
             } else {
                 userSearch = "/users/" + userId;
             }
+            log.info(" ----- userSearch: " + userSearch);
+            log.info(" ------ createHttpRequestEntity: " + this.keycloakContextProvider.createApiRequestEntity().toString());
 
             ResponseEntity<String> response = this.restTemplate.exchange(this.keycloakConfiguration.getKeycloakAdminUrl() + userSearch, HttpMethod.GET, this.keycloakContextProvider.createApiRequestEntity(), String.class, new Object[0]);
             String result = !this.keycloakConfiguration.isUseEmailAsCamundaUserId() && !this.keycloakConfiguration.isUseUsernameAsCamundaUserId() ? "[" + (String) response.getBody() + "]" : (String) response.getBody();
