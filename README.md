@@ -1,19 +1,21 @@
 # Yields BPMN
 
-Build jar:
+Build the `jar`:
 ```
-mvn clean install
-```
-
-Build docker image:
-
-```
-docker build -t yields-bpmn .
+docker run --rm \
+    -v ${HOME}/.m2:/root/.m2 \
+    -v ${PWD}:/workspace/source \
+    -w /workspace/source \
+    --entrypoint mvn maven:3.6.3-slim clean install
 ```
 
-
-Run:
+Build the `docker` image:
 ```
-docker run -p 8084:8084 yields-bpmn
+docker build --rm -t build.yields.io/y-camunda .
+```
+
+Run the container:
+```
+docker run --rm -d --name camunda -p 8084:8084 build.yields.io/y-camunda
 ```
 
