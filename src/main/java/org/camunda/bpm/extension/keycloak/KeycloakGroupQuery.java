@@ -31,7 +31,7 @@ public class KeycloakGroupQuery extends GroupQueryImpl {
         final KeycloakIdentityProviderSession identityProvider = getKeycloakIdentityProvider(commandContext);
         List<Group> result = identityProvider.findGroupByQueryCriteria(this);
         for (Group group: result) {
-            if (group.getName().equals("bnp")) {
+            if (group.getName().equals("client_name")) {
                 group.setName("Central");
                 group.setId("Central");
             }

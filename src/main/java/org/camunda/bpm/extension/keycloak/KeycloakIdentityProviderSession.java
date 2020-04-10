@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
-import io.yields.bpm.bnp.chiron.ChironApi;
+import io.yields.bpm.client_name.chiron.ChironApi;
 import org.camunda.bpm.engine.BadUserRequestException;
 import org.camunda.bpm.engine.authorization.Permission;
 import org.camunda.bpm.engine.authorization.Permissions;

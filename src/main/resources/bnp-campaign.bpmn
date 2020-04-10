@@ -6,9 +6,9 @@
         <camunda:property />
       </camunda:properties>
     </bpmn:extensionElements>
-    <bpmn:participant id="Participant_1qsjvx8" processRef="bnp-campaign" />
+    <bpmn:participant id="Participant_1qsjvx8" processRef="client_name-campaign" />
   </bpmn:collaboration>
-  <bpmn:process id="bnp-campaign" name="BNP Campaign" isExecutable="true">
+  <bpmn:process id="client_name-campaign" name="Client Campaign" isExecutable="true">
     <bpmn:laneSet id="LaneSet_0ooskpb">
       <bpmn:lane id="Lane_1kbkdge" name="Local team">
         <bpmn:flowNodeRef>Task_0riokkz</bpmn:flowNodeRef>

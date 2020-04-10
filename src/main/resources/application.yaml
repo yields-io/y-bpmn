@@ -23,8 +23,8 @@ camunda.bpm:
     create: All tasks
 
 plugin.identity.keycloak:
-  keycloakIssuerUrl: https://bnp.uat.yields.io/y-keycloak/realms/yields
-  keycloakAdminUrl: https://bnp.uat.yields.io/y-keycloak/admin/realms/yields
+  keycloakIssuerUrl: https://client_name.uat.yields.io/y-keycloak/realms/yields
+  keycloakAdminUrl: https://client_name.uat.yields.io/y-keycloak/admin/realms/yields
   clientId: camunda-identity-service
   clientSecret: 15fdf9ae-ca24-4e9c-af64-e45d10471acc
   useEmailAsCamundaUserId: false
@@ -37,9 +37,9 @@ plugin.identity.keycloak:
 
 
 #keycloak:
-#  url.auth: ${KEYCLOAK_URL_AUTH:https://bnp.qa.yields.io/y-keycloak}
-#  url.token: ${KEYCLOAK_URL_TOKEN:https://bnp.qa.yields.io/y-keycloak}
-#  url.plugin: ${KEYCLOAK_URL_PLUGIN:https://bnp.qa.yields.io/y-keycloak}
+#  url.auth: ${KEYCLOAK_URL_AUTH:https://client_name.qa.yields.io/y-keycloak}
+#  url.token: ${KEYCLOAK_URL_TOKEN:https://client_name.qa.yields.io/y-keycloak}
+#  url.plugin: ${KEYCLOAK_URL_PLUGIN:https://client_name.qa.yields.io/y-keycloak}
 #  client.id: ${KEYCLOAK_CLIENT_ID:camunda-identity-service}
 #  client.secret: ${KEYCLOAK_CLIENT_SECRET:15fdf9ae-ca24-4e9c-af64-e45d10471acc}
 #
