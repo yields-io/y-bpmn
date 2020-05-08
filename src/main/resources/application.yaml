@@ -23,10 +23,10 @@ camunda.bpm:
     create: All tasks
 
 plugin.identity.keycloak:
-  keycloakIssuerUrl: https://demo.qa.yields.io/y-keycloak/realms/yields
-  keycloakAdminUrl: https://demo.qa.yields.io/y-keycloak/admin/realms/yields
+  keycloakIssuerUrl: https://hsbc.yields.io/y-keycloak/realms/yields
+  keycloakAdminUrl: https://hsbc.yields.io/y-keycloak/admin/realms/yields
   clientId: camunda-identity-service
-  clientSecret: 605552a4-20dd-44ea-b41e-faafcb1b6895
+  clientSecret: 8e11b2ac-3a94-4467-a1d6-caff9bc86ed4
   useEmailAsCamundaUserId: false
   useUsernameAsCamundaUserId: true
   useGroupPathAsCamundaGroupId : true
