@@ -1,5 +1,13 @@
 # Yields BPMN
 
+Adjust configuration and set propper values at files:
+
+https://github.com/yields-io/y-camunda/blob/master/src/main/java/io/yields/bpm/client_name/chiron/ChironApi.java#L29
+https://github.com/yields-io/y-camunda/blob/master/src/main/java/org/camunda/bpm/extension/keycloak/KeycloakGroupQuery.java#L34
+https://github.com/yields-io/y-camunda/blob/master/src/main/resources/application.yaml#L25
+
+before next step:
+
 Build the `jar`:
 ```
 docker run --rm \
